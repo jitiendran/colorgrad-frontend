@@ -16,6 +16,9 @@ import { FavouritecolorComponent } from './favouritecolor/favouritecolor.compone
 import { FavouritegradientComponent } from './favouritegradient/favouritegradient.component';
 import { ContributedcolorsComponent } from './contributedcolors/contributedcolors.component';
 import { ContributedgradientsComponent } from './contributedgradients/contributedgradients.component';
+import { LoginModelComponent } from './nav/login-model/login-model.component';
+import { SignupModelComponent } from './nav/signup-model/signup-model.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -29,6 +32,8 @@ import { ContributedgradientsComponent } from './contributedgradients/contribute
     FavouritegradientComponent,
     ContributedcolorsComponent,
     ContributedgradientsComponent,
+    LoginModelComponent,
+    SignupModelComponent,
   ],
   imports: [
     NgbModule,
@@ -36,6 +41,8 @@ import { ContributedgradientsComponent } from './contributedgradients/contribute
     AppRoutingModule,
     MaterialModule,
     BootstrapModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

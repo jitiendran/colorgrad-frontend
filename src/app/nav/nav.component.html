@@ -7,9 +7,14 @@
       <div class="nav-header web title">ColorGrad</div>
     </div>
     <div class="nav-header navigations">
-      <a href="#">Home</a>
-      <a href="#">Colors</a>
-      <a href="#">Gradients</a>
+      <a
+        routerLink="/"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Home</a
+      >
+      <a routerLink="/colors" routerLinkActive="active">Colors</a>
+      <a routerLink="/gradients" routerLinkActive="active">Gradients</a>
       <div class="row" [ngStyle]="{ marginRight: '3em' }">
         <div class="col">
           <div ngbDropdown class="d-inline-block">
@@ -47,8 +52,12 @@
       </div>
     </div>
     <div class="nav-header auth">
-      <button class="outlined-btn">Login</button>
-      <button class="btn">Signup</button>
+      <button type="button" class="btn btn-outline-primary" (click)="onLogin()">
+        Login
+      </button>
+      <button type="button" class="btn btn-primary" (click)="onSignup()">
+        Signup
+      </button>
     </div>
   </div>
 </nav>

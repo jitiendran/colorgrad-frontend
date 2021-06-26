@@ -7,6 +7,8 @@ import { FavouritecolorComponent } from './favouritecolor/favouritecolor.compone
 import { FavouritegradientComponent } from './favouritegradient/favouritegradient.component';
 import { GradientsComponent } from './gradients/gradients.component';
 import { HomeComponent } from './home/home.component';
+import { LoginModelComponent } from './nav/login-model/login-model.component';
+import { SignupModelComponent } from './nav/signup-model/signup-model.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'favourite/gradients', component: FavouritegradientComponent },
   { path: 'contributions/colors', component: ContributedcolorsComponent },
   { path: 'contributions/gradients', component: ContributedgradientsComponent },
+  { path: 'login', component: LoginModelComponent },
+  { path: 'signup', component: SignupModelComponent },
 ];
 
 @NgModule({

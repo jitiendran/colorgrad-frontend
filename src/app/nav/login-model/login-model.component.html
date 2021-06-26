@@ -1,0 +1,36 @@
+<div class="login">
+  <div class="wrapper">
+    <div class="img"></div>
+    <div class="content">
+      <h3>Login</h3>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="standard" class="form">
+          <mat-label>Username</mat-label>
+          <input type="text" matInput formControlName="Username" required />
+          <mat-error *ngIf="loginForm.get('Username')?.invalid"
+            >Username required</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field appearance="standard" class="form">
+          <mat-label>Password</mat-label>
+          <input type="password" matInput formControlName="Password" required />
+          <mat-error *ngIf="loginForm.get('Password')?.invalid"
+            >Password required</mat-error
+          >
+        </mat-form-field>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [ngStyle]="{ width: '100%' }"
+        >
+          Login
+        </button>
+        <div class="hr"></div>
+        <div class="auth-msg">
+          Don't have an account
+          <a routerLink="/signup">signup</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

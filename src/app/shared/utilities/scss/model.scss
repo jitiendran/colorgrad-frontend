@@ -1,0 +1,24 @@
+@import "./variables.scss";
+
+.hr {
+  margin-top: 1em;
+  background: gainsboro;
+  width: 100%;
+  height: 1.5px;
+}
+
+.auth-msg {
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  color: #676767;
+  font-size: 1em;
+  gap: 0.5em;
+  a {
+    color: $primary_color;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

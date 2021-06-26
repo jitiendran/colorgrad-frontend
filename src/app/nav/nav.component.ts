@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { LoginModelComponent } from './login-model/login-model.component';
+import { SignupModelComponent } from './signup-model/signup-model.component';
 
 @Component({
   selector: 'app-nav',
@@ -6,20 +10,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.scss'],
 })
 export class NavComponent implements OnInit {
-  constructor() {}
-
-  favourite: Boolean = false;
-  contribute: Boolean = false;
+  constructor(public dialog: MatDialog, private router: Router) {}
 
   ngOnInit(): void {}
 
-  onFavourite() {
-    this.contribute = false;
-    this.favourite = !this.favourite;
+  onLogin() {
+    this.router.navigateByUrl('/login');
   }
 
-  onContribute() {
-    this.favourite = false;
-    this.contribute = !this.contribute;
+  onSignup() {
+    this.router.navigateByUrl('/signup');
   }
 }
