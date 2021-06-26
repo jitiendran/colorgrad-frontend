@@ -1,0 +1,54 @@
+<nav>
+  <div class="nav-header">
+    <div class="nav-header web">
+      <div class="nav-header web icon">
+        <img src="../../assets/icon.png" alt="web-icon" />
+      </div>
+      <div class="nav-header web title">ColorGrad</div>
+    </div>
+    <div class="nav-header navigations">
+      <a href="#">Home</a>
+      <a href="#">Colors</a>
+      <a href="#">Gradients</a>
+      <div class="row" [ngStyle]="{ marginRight: '3em' }">
+        <div class="col">
+          <div ngbDropdown class="d-inline-block">
+            <button
+              class="btn btn-outline-primary"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              Favourites
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem>Colors</button>
+              <button ngbDropdownItem>Gradients</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div ngbDropdown class="d-inline-block">
+            <button
+              class="btn btn-outline-primary"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              Contributions
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem>Colors</button>
+              <button ngbDropdownItem>Gradients</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="nav-header auth">
+      <button class="outlined-btn">Login</button>
+      <button class="btn">Signup</button>
+    </div>
+  </div>
+</nav>
