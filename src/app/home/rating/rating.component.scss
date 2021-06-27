@@ -3,3 +3,24 @@
 @import "../../shared/utilities/scss/model.scss";
 @import "../../shared/utilities/scss/mixins.scss";
 @import "../../shared/utilities/scss/material.scss";
+
+.rating {
+  padding: 1em;
+  .title {
+    font-size: 1.7em;
+  }
+  .content {
+    @include column-center;
+    h3 {
+      font-family: "Montserrat", sans-serif;
+      width: 10em;
+      margin-right: 1em;
+      font-size: 1.3em;
+      font-weight: 600;
+    }
+    .wrap {
+      width: 55em;
+      @include row;
+    }
+  }
+}
