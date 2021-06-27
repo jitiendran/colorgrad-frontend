@@ -1,0 +1,75 @@
+@import "../../shared/utilities/scss/font.scss";
+@import "../../shared/utilities/scss/variables.scss";
+@import "../../shared/utilities/scss/model.scss";
+@import "../../shared/utilities/scss/mixins.scss";
+@import "../../shared/utilities/scss/material.scss";
+
+.colors {
+  padding: 1em;
+  .title {
+    @include row;
+    justify-content: space-between;
+    font-size: 1.7em;
+    button {
+      color: rgb(133, 133, 133);
+      @include empty-btn;
+      font-size: 0.75em;
+      &:hover {
+        color: darken($color: rgba(133, 133, 133), $amount: 20%);
+      }
+    }
+  }
+  .content {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1.75em;
+    padding: 1em 2em;
+    .color {
+      width: 10em;
+      height: 15em;
+      padding: 0.5em;
+      background: #482ff7;
+      box-shadow: 10px 10px 10px 2px rgba(0, 0, 0, 0.2);
+      .display {
+        height: 100%;
+        @include row-center;
+        button {
+          background: none;
+          outline: none;
+          border: none;
+          color: #fff;
+          font-size: 1.2em;
+          font-weight: 500;
+          &:hover {
+            border: 2px solid #fff;
+            border-radius: 0.3em;
+          }
+        }
+      }
+    }
+  }
+}
+
+.color {
+  width: 10em;
+  height: 15em;
+  padding: 0.5em;
+  background: #482ff7;
+  box-shadow: 10px 10px 10px 2px rgba(0, 0, 0, 0.2);
+  .display {
+    height: 100%;
+    @include row-center;
+    button {
+      background: none;
+      outline: none;
+      border: none;
+      color: #fff;
+      font-size: 1.2em;
+      font-weight: 500;
+      &:hover {
+        border: 2px solid #fff;
+        border-radius: 0.3em;
+      }
+    }
+  }
+}

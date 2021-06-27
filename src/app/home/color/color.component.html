@@ -1,0 +1,19 @@
+<div class="colors">
+  <div class="title">
+    Colors
+    <button (click)="onGo()">
+      more
+      <mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+  </div>
+  <div class="content">
+    <div class="color" *ngFor="let color of test">
+      <mat-icon class="float-right" [ngStyle]="{ color: '#f6d365' }"
+        >star</mat-icon
+      >
+      <div class="display">
+        <button (click)="onCopy('#8544')">#8544</button>
+      </div>
+    </div>
+  </div>
+</div>

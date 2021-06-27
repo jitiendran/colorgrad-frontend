@@ -1,3 +1,56 @@
+@import "../shared/utilities/scss/font.scss";
+@import "../shared/utilities/scss/variables.scss";
+@import "../shared/utilities/scss/model.scss";
+@import "../shared/utilities/scss/material.scss";
+
 .home {
-  margin-top: 4em;
+  margin-top: 3em;
+  &.bg {
+    width: 100%;
+    height: 20em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: url("../../assets/home.jpg") rgba(0, 0, 0, 0.1);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-blend-mode: multiply;
+    padding: 1em 3em;
+    .main-title {
+      display: flex;
+      align-items: center;
+      font-size: 3em;
+      color: #fff;
+      img {
+        width: 2em;
+      }
+      span {
+        padding: 0em 0.2em;
+        background: linear-gradient(to right, #f6d365, #ff6f48);
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+    }
+    .sub-title {
+      font-size: 1.3em;
+      color: #fff;
+    }
+    .auth-btns {
+      margin-top: 1em;
+      width: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .outlined-btn {
+        border: 2px solid #fff;
+        color: #fff;
+      }
+      .common-btn {
+        border: 2px solid #fff;
+        background: #fff;
+        color: $black;
+      }
+    }
+  }
 }

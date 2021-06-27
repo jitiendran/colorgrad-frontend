@@ -1,0 +1,42 @@
+@mixin margin-auto {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+@mixin row {
+  display: flex;
+  align-items: center;
+}
+
+@mixin row-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@mixin column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin empty-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3em;
+  background: none;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}

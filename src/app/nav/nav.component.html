@@ -11,11 +11,13 @@
         routerLink="/"
         routerLinkActive="active"
         [routerLinkActiveOptions]="{ exact: true }"
+        [ngStyle]="{ marginLeft: '1em' }"
         >Home</a
       >
       <a routerLink="/colors" routerLinkActive="active">Colors</a>
       <a routerLink="/gradients" routerLinkActive="active">Gradients</a>
-      <div class="row" [ngStyle]="{ marginRight: '3em' }">
+
+      <div class="row" [ngStyle]="{ marginRight: '2.5em' }">
         <div class="col">
           <div ngbDropdown class="d-inline-block">
             <button
@@ -33,7 +35,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="row" [ngStyle]="{ marginRight: '2.5em' }">
         <div class="col">
           <div ngbDropdown class="d-inline-block">
             <button
@@ -50,6 +52,7 @@
           </div>
         </div>
       </div>
+      <a routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
     </div>
     <div class="nav-header auth">
       <button type="button" class="btn btn-outline-primary" (click)="onLogin()">

@@ -1,0 +1,27 @@
+<div class="colors">
+  <div class="title">
+    Gradients
+    <button (click)="onGo()">
+      more
+      <mat-icon>arrow_forward_ios</mat-icon>
+    </button>
+  </div>
+  <div class="content">
+    <div
+      class="gradient"
+      [ngStyle]="setBackground()"
+      *ngFor="let color of test"
+    >
+      <mat-icon
+        class="float-right"
+        [ngStyle]="{
+          color: '#f6d365'
+        }"
+        >star</mat-icon
+      >
+      <div class="display">
+        <button (click)="onCopy('#12c2e9')">#12c2e9 > #c471ed > #f64f59</button>
+      </div>
+    </div>
+  </div>
+</div>

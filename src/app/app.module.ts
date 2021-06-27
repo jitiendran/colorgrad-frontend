@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BootstrapModule } from './shared/bootstrap/bootstrap.module';
 import { MaterialModule } from './shared/material/material.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ClipboardModule } from 'ngx-clipboard';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -18,7 +20,11 @@ import { ContributedcolorsComponent } from './contributedcolors/contributedcolor
 import { ContributedgradientsComponent } from './contributedgradients/contributedgradients.component';
 import { LoginModelComponent } from './nav/login-model/login-model.component';
 import { SignupModelComponent } from './nav/signup-model/signup-model.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { ColorComponent } from './home/color/color.component';
+import { GradientComponent } from './home/gradient/gradient.component';
+import { RatingComponent } from './home/rating/rating.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +40,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ContributedgradientsComponent,
     LoginModelComponent,
     SignupModelComponent,
+    LeaderboardComponent,
+    ColorComponent,
+    GradientComponent,
+    RatingComponent,
+    FooterComponent,
   ],
   imports: [
     NgbModule,
@@ -43,6 +54,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     BootstrapModule,
     FormsModule,
     ReactiveFormsModule,
+    ClipboardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

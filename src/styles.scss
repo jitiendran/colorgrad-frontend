@@ -5,8 +5,40 @@
   box-sizing: border-box;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  &::-webkit-scrollbar {
+    width: 0.75em;
+
+    @media only screen and (max-width: 500px) {
+      display: none;
+    }
+  }
+  &::-webkit-scrollbar-thumb {
+    display: none;
+    background: gainsboro;
+  }
+  &:hover {
+    &::-webkit-scrollbar-thumb {
+      display: block;
+    }
+  }
+}
 
 /* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+@import "~bootstrap/scss/bootstrap";
+
+.green-snackbar {
+  background: #a7ff83;
+  color: #fff;
+}
+
+.red-snackbar {
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
+  color: #fff;
+}

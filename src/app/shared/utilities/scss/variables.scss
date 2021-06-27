@@ -1,3 +1,22 @@
+//colors
+
 $black: #000;
 $primary_color: #067dfe;
 $hover_color: #f5f5f5;
+$silver_color: rgb(178, 160, 158);
+$gold_color: rgb(250, 179, 0);
+$blue_color: #259af3;
+$green_color: #34a297;
+$pink_color: #dc306f;
+$purple_color: #7127a8;
+$red_color: #c62828;
+
+//gradients
+
+$silver-grad: linear-gradient(to bottom right, #e0e0e0 0%, #bdbdbd 100%);
+$gold-grad: linear-gradient(to bottom right, #ffeb3b 0%, #fbc02d 100%);
+$blue-grad: linear-gradient(to bottom right, #4fc3f7 0%, #2196f3 100%);
+$green-grad: linear-gradient(to bottom right, #4db6ac 0%, #00796b 100%);
+$pink-grad: linear-gradient(to bottom right, #f48fb1 0%, #d81b60 100%);
+$purple-grad: linear-gradient(to bottom right, #ab47bc 0%, #4527a0 100%);
+$red-grad: linear-gradient(to bottom right, #f4511e 0%, #b71c1c 100%);
