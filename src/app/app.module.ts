@@ -25,6 +25,11 @@ import { ColorComponent } from './home/color/color.component';
 import { GradientComponent } from './home/gradient/gradient.component';
 import { RatingComponent } from './home/rating/rating.component';
 import { FooterComponent } from './footer/footer.component';
+import { GraphQLModule } from './graphql.module';
+import { HttpClientModule } from '@angular/common/http';
+import { APOLLO_OPTIONS } from 'apollo-angular';
+import { HttpLink } from 'apollo-angular/http';
+import { InMemoryCache } from '@apollo/client/core';
 
 @NgModule({
   declarations: [
@@ -55,8 +60,23 @@ import { FooterComponent } from './footer/footer.component';
     FormsModule,
     ReactiveFormsModule,
     ClipboardModule,
+    GraphQLModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: APOLLO_OPTIONS,
+      useFactory: (httplink: HttpLink) => {
+        return {
+          cache: new InMemoryCache(),
+          link: httplink.create({
+            uri: 'http://localhost:4000/graphql',
+          }),
+        };
+      },
+      deps: [HttpLink],
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

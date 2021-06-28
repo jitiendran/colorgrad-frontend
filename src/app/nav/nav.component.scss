@@ -1,5 +1,6 @@
 @import "../shared/utilities/scss/font.scss";
 @import "../shared/utilities/scss/variables.scss";
+@import "../shared/utilities/scss/mixins.scss";
 
 nav {
   width: 100vw;
@@ -19,10 +20,9 @@ nav {
     align-items: center;
     justify-content: space-between;
     &.web {
-      display: flex;
-      flex-direction: row;
+      @include row;
       gap: 0.45em;
-      align-items: center;
+      cursor: pointer;
       &.title {
         font-size: 1.3em;
         font-weight: 500;

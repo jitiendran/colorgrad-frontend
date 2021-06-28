@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Apollo, gql } from 'apollo-angular';
 
 @Component({
   selector: 'app-color',
@@ -11,18 +12,44 @@ import { Router } from '@angular/router';
 })
 export class ColorComponent implements OnInit {
   popularColors: ColorModel[] = [];
-  test: any[] = [1, 2, 3, 4, 5, 6, 7];
 
   constructor(
     private Router: Router,
+    private apollo: Apollo,
     private clipborad: ClipboardService,
     private snack: MatSnackBar
   ) {}
 
-  ngOnInit(): void {}
+  private POPULAR_COLOR_QUERY = gql`
+    query getPopularColors {
+      getPopularColors {
+        _id
+        Colors
+        Type
+        UsedBy
+      }
+    }
+  `;
 
-  onCopy(color: string) {
-    this.clipborad.copyFromContent(color);
+  ngOnInit(): void {
+    this.apollo
+      .watchQuery({
+        query: this.POPULAR_COLOR_QUERY,
+      })
+      .valueChanges.subscribe((result: any) => {
+        console.log(result);
+        this.popularColors = result.data.getPopularColors;
+
+        this.popularColors = this.popularColors.slice().sort((a, b) => {
+          return Number(b.UsedBy) - Number(a.UsedBy);
+        });
+
+        this.popularColors = this.popularColors.slice(0, 7);
+      });
+  }
+
+  onCopy(color: String) {
+    this.clipborad.copyFromContent(String(color));
     this.snack.open('Copied to Clipboard !', '', {
       duration: 1000,
       panelClass: ['green-snackbar'],

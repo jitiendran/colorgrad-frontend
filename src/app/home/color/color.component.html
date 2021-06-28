@@ -7,12 +7,16 @@
     </button>
   </div>
   <div class="content">
-    <div class="color" *ngFor="let color of test">
+    <div
+      class="color"
+      *ngFor="let color of popularColors"
+      [ngStyle]="{ background: color.Colors }"
+    >
       <mat-icon class="float-right" [ngStyle]="{ color: '#f6d365' }"
         >star</mat-icon
       >
       <div class="display">
-        <button (click)="onCopy('#8544')">#8544</button>
+        <button (click)="onCopy(color.Colors)">{{ color.Colors }}</button>
       </div>
     </div>
   </div>

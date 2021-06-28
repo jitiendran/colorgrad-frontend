@@ -1,6 +1,6 @@
 <nav>
   <div class="nav-header">
-    <div class="nav-header web">
+    <div class="nav-header web" (click)="goHome()">
       <div class="nav-header web icon">
         <img src="../../assets/icon.png" alt="web-icon" />
       </div>
@@ -28,8 +28,12 @@
               Favourites
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button ngbDropdownItem>Colors</button>
-              <button ngbDropdownItem>Gradients</button>
+              <button ngbDropdownItem (click)="goFavouriteColors()">
+                Colors
+              </button>
+              <button ngbDropdownItem (click)="goFavouriteGradients()">
+                Gradients
+              </button>
             </div>
           </div>
         </div>
@@ -46,8 +50,12 @@
               Contributions
             </button>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-              <button ngbDropdownItem>Colors</button>
-              <button ngbDropdownItem>Gradients</button>
+              <button ngbDropdownItem (click)="goContributedColors()">
+                Colors
+              </button>
+              <button ngbDropdownItem (click)="goContributedGradients()">
+                Gradients
+              </button>
             </div>
           </div>
         </div>

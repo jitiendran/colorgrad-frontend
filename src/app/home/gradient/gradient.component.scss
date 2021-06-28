@@ -28,22 +28,25 @@
       width: 17em;
       height: 15em;
       padding: 0.5em;
-      box-shadow: 10px 10px 10px 2px rgba(0, 0, 0, 0.2);
-      background: none;
+      box-shadow: 0 6px 15px rgb(36 37 38 / 8%);
+      border-radius: 16px;
+      background: #fff;
       .display {
         width: 100%;
-        height: 100%;
-        @include row-center;
-        button {
-          background: none;
-          outline: none;
-          border: none;
-          color: #fff;
-          font-size: 0.98em;
-          font-weight: 500;
-          &:hover {
-            text-decoration: underline;
-          }
+        height: calc(100% - 3.2em);
+        @include column-center;
+        .circle {
+          @include empty-btn;
+          width: 160px;
+          height: 160px;
+          border-radius: 50%;
+        }
+      }
+      button {
+        @include empty-btn;
+        float: right;
+        &:hover {
+          text-decoration: underline;
         }
       }
     }

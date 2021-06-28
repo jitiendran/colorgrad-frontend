@@ -21,4 +21,24 @@ export class NavComponent implements OnInit {
   onSignup() {
     this.router.navigateByUrl('/signup');
   }
+
+  goHome() {
+    this.router.navigateByUrl('/');
+  }
+
+  goFavouriteColors() {
+    this.router.navigateByUrl('/favourite/colors');
+  }
+
+  goFavouriteGradients() {
+    this.router.navigateByUrl('/favourite/gradients');
+  }
+
+  goContributedColors() {
+    this.router.navigateByUrl('/contributions/colors');
+  }
+
+  goContributedGradients() {
+    this.router.navigateByUrl('/contributions/gradients');
+  }
 }

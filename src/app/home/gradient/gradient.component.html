@@ -7,11 +7,7 @@
     </button>
   </div>
   <div class="content">
-    <div
-      class="gradient"
-      [ngStyle]="setBackground()"
-      *ngFor="let color of test"
-    >
+    <div class="gradient" *ngFor="let gradient of Gradients">
       <mat-icon
         class="float-right"
         [ngStyle]="{
@@ -20,8 +16,14 @@
         >star</mat-icon
       >
       <div class="display">
-        <button (click)="onCopy('#12c2e9')">#12c2e9 > #c471ed > #f64f59</button>
+        <div
+          class="circle"
+          [ngStyle]="{ background: getBg(gradient.Direction, gradient.Colors) }"
+        ></div>
       </div>
+      <button (click)="onCopy(getBg(gradient.Direction, gradient.Colors))">
+        copy
+      </button>
     </div>
   </div>
 </div>
