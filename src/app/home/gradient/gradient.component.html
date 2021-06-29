@@ -8,13 +8,14 @@
   </div>
   <div class="content">
     <div class="gradient" *ngFor="let gradient of Gradients">
-      <mat-icon
-        class="float-right"
-        [ngStyle]="{
-          color: '#f6d365'
-        }"
-        >star</mat-icon
-      >
+      <div class="btn-row">
+        <button class="circle">
+          <i class="far fa-heart"></i>
+        </button>
+        <mat-icon class="float-right" [ngStyle]="{ color: '#f6d365' }"
+          >star</mat-icon
+        >
+      </div>
       <div class="display">
         <div
           class="circle"

@@ -10,7 +10,6 @@ import { ClipboardModule } from 'ngx-clipboard';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
-import { AuthComponent } from './auth/auth.component';
 import { HomeComponent } from './home/home.component';
 import { ColorsComponent } from './colors/colors.component';
 import { GradientsComponent } from './gradients/gradients.component';
@@ -36,7 +35,6 @@ import { HttpInterceptorInterceptor } from './http-interceptor.interceptor';
   declarations: [
     AppComponent,
     NavComponent,
-    AuthComponent,
     HomeComponent,
     ColorsComponent,
     GradientsComponent,

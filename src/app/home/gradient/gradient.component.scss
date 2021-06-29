@@ -31,6 +31,20 @@
       box-shadow: 0 6px 15px rgb(36 37 38 / 8%);
       border-radius: 16px;
       background: #fff;
+      .btn-row {
+        @include row;
+        justify-content: space-between;
+        .circle {
+          @include empty-btn;
+          background: #fff;
+          width: 25px;
+          height: 25px;
+          border-radius: 50%;
+          i {
+            color: $black;
+          }
+        }
+      }
       .display {
         width: 100%;
         height: calc(100% - 3.2em);

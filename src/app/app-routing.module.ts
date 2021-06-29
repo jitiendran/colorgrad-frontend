@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuardGuard } from './auth/auth-guard.guard';
 import { ColorsComponent } from './colors/colors.component';
 import { ContributedcolorsComponent } from './contributedcolors/contributedcolors.component';
 import { ContributedgradientsComponent } from './contributedgradients/contributedgradients.component';
@@ -15,13 +16,33 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'colors', component: ColorsComponent },
   { path: 'gradients', component: GradientsComponent },
-  { path: 'favourite/colors', component: FavouritecolorComponent },
-  { path: 'favourite/gradients', component: FavouritegradientComponent },
-  { path: 'contributions/colors', component: ContributedcolorsComponent },
-  { path: 'contributions/gradients', component: ContributedgradientsComponent },
+  {
+    path: 'favourite/colors',
+    component: FavouritecolorComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'favourite/gradients',
+    component: FavouritegradientComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'contributions/colors',
+    component: ContributedcolorsComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'contributions/gradients',
+    component: ContributedgradientsComponent,
+    canActivate: [AuthGuardGuard],
+  },
   { path: 'login', component: LoginModelComponent },
   { path: 'signup', component: SignupModelComponent },
-  { path: 'leaderboard', component: LeaderboardComponent },
+  {
+    path: 'leaderboard',
+    component: LeaderboardComponent,
+    canActivate: [AuthGuardGuard],
+  },
 ];
 
 @NgModule({

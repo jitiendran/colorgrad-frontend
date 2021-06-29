@@ -62,7 +62,7 @@
       </div>
       <a routerLink="/leaderboard" routerLinkActive="active">Leaderboard</a>
     </div>
-    <div class="nav-header auth" *ngIf="!Token">
+    <div class="nav-header auth" *ngIf="!tokenAvailable">
       <button type="button" class="btn btn-outline-primary" (click)="onLogin()">
         Login
       </button>
@@ -70,7 +70,7 @@
         Signup
       </button>
     </div>
-    <div class="row" *ngIf="Token">
+    <div class="row" *ngIf="tokenAvailable == true">
       <div class="col">
         <div ngbDropdown class="d-inline-block">
           <button
@@ -79,15 +79,11 @@
             ngbDropdownToggle
           >
             <img class="profile-img" src="../../assets/jiji.jpeg" alt="" />
-            {{ User.Username }}
+            {{ User?.Username }}
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="goFavouriteColors()">
-              Profile
-            </button>
-            <button ngbDropdownItem (click)="goFavouriteGradients()">
-              Logout
-            </button>
+            <button ngbDropdownItem (click)="onProfile()">Profile</button>
+            <button ngbDropdownItem (click)="onLogout()">Logout</button>
           </div>
         </div>
       </div>

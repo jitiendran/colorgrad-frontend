@@ -43,13 +43,14 @@ export class LoginModelComponent implements OnInit {
       .valueChanges.subscribe(
         (result) => {
           console.log(result);
-          this.router.navigateByUrl('/');
           this.apollo.client.clearStore();
           localStorage.setItem('token', result.data.user_login.Token);
           localStorage.setItem(
             'refreshToken',
             result.data.user_login.RefreshToken
           );
+          this.router.navigateByUrl('/');
+          window.location.replace('');
         },
         (err) => {
           console.error(err);
