@@ -26,10 +26,11 @@ import { GradientComponent } from './home/gradient/gradient.component';
 import { RatingComponent } from './home/rating/rating.component';
 import { FooterComponent } from './footer/footer.component';
 import { GraphQLModule } from './graphql.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
+import { HttpInterceptorInterceptor } from './http-interceptor.interceptor';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,11 @@ import { InMemoryCache } from '@apollo/client/core';
         };
       },
       deps: [HttpLink],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpInterceptorInterceptor,
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],

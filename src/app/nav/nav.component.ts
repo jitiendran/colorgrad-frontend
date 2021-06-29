@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { LoginModelComponent } from './login-model/login-model.component';
-import { SignupModelComponent } from './signup-model/signup-model.component';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-nav',
@@ -11,8 +10,13 @@ import { SignupModelComponent } from './signup-model/signup-model.component';
 })
 export class NavComponent implements OnInit {
   constructor(public dialog: MatDialog, private router: Router) {}
+  Token: string = '';
+  User: any;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.Token = String(localStorage.getItem('token'));
+    this.User = jwt_decode(this.Token);
+  }
 
   onLogin() {
     this.router.navigateByUrl('/login');
