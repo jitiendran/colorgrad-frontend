@@ -1,1 +1,23 @@
-<p>user-gradients works!</p>
+<div class="colors">
+  <div class="content">
+    <div class="gradient" *ngFor="let gradient of Gradients">
+      <div class="btn-row">
+        <button class="circle">
+          <i class="far fa-heart"></i>
+        </button>
+        <mat-icon class="float-right" [ngStyle]="{ color: '#f6d365' }"
+          >star</mat-icon
+        >
+      </div>
+      <div class="display">
+        <div
+          class="circle"
+          [ngStyle]="{ background: getBg(gradient.Direction, gradient.Colors) }"
+        ></div>
+      </div>
+      <button (click)="onCopy(getBg(gradient.Direction, gradient.Colors))">
+        copy
+      </button>
+    </div>
+  </div>
+</div>

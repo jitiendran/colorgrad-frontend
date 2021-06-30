@@ -1,17 +1,33 @@
 <div class="profile">
   <div class="profile-model">
     <div class="profile-img">
-      <img src="../../assets/jiji.jpeg" alt="Profile" />
+      <img
+        src="{{ User?.Profile || '../../../../assets/user.jpeg' }}"
+        alt="Profile"
+      />
       <div class="profile-btn"><i class="fas fa-pen"></i></div>
-      <div class="name">Jitiendran KS</div>
-      <div class="email">jitiendranjiji2000@gmail.com</div>
+      <div class="row1">
+        <div class="name">{{ User?.Username }}</div>
+        <div
+          class="title"
+          [ngStyle]="{ background: getBackground(User?.Rating) }"
+        >
+          {{ getTitle(User?.Rating) }}
+        </div>
+      </div>
+      <div class="email">{{ User?.Email }}</div>
       <button class="edit-btn">Edit Profile</button>
       <div class="friends">
         <i class="fas fa-user-friends"></i>
-        <button><span>12</span> followers</button> .
-        <button><span>24</span> following</button>
+        <button>
+          <span>{{ User?.Followers.length }}</span> followers
+        </button>
+        .
+        <button>
+          <span>{{ User?.Following.length }}</span> following
+        </button>
       </div>
-      <div class="social">
+      <div class="social" *ngIf="User?.LinkedinProfile">
         <div class="row">
           <i class="fab fa-linkedin"></i> <a href="#">jitiendran1234</a>
         </div>
@@ -22,9 +38,9 @@
     </div>
   </div>
   <div class="nav">
-    <mat-tab-group [ngStyle]="{ width: '100%' }">
+    <mat-tab-group class="tab">
       <mat-tab label="Overview">
-        <app-overview></app-overview>
+        <app-overview [UserDetails]="User"></app-overview>
       </mat-tab>
       <mat-tab label="Colors">
         <app-user-colors></app-user-colors>

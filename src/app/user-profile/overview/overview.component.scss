@@ -1,0 +1,22 @@
+@import "../../shared/utilities/scss/font.scss";
+@import "../../shared/utilities/scss/material.scss";
+@import "../../shared/utilities/scss/mixins.scss";
+@import "../../shared/utilities/scss/model.scss";
+@import "../../shared/utilities/scss/variables.scss";
+
+.overview {
+  margin-top: 2em;
+  margin-bottom: 2em;
+  width: 100%;
+  border: 1.5px solid #e1e5e9;
+  border-radius: 0.3em;
+  padding: 0.5em 1em;
+  .title {
+    font-size: 1.3em;
+    font-weight: 500;
+  }
+  .badges {
+    display: flex;
+    flex-flow: row wrap;
+  }
+}

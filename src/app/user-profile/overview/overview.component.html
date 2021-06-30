@@ -1,1 +1,94 @@
-<p>overview works!</p>
+<div class="overview">
+  <div class="title">Badges:</div>
+  <div class="badges" *ngIf="UserDetails?.Rating > 0">
+    <div class="badge silver" *ngIf="UserDetails?.Rating > 0">
+      <div class="circle silver">&#8544;</div>
+    </div>
+    <div class="badge silver" *ngIf="UserDetails?.Rating > 40">
+      <div class="circle silver">&#8545;</div>
+    </div>
+    <div class="badge silver" *ngIf="UserDetails?.Rating > 80">
+      <div class="circle silver">&#8546;</div>
+    </div>
+    <div class="badge silver" *ngIf="UserDetails?.Rating > 120">
+      <div class="circle silver">&#8547;</div>
+    </div>
+    <div class="badge silver" *ngIf="UserDetails?.Rating > 160">
+      <div class="circle silver">&#8548;</div>
+    </div>
+  </div>
+  <div class="badges" *ngIf="UserDetails?.Rating > 200">
+    <div class="badge gold" *ngIf="UserDetails?.Rating > 200">
+      <div class="circle gold">&#8544;</div>
+    </div>
+    <div class="badge gold" *ngIf="UserDetails?.Rating > 240">
+      <div class="circle gold">&#8545;</div>
+    </div>
+    <div class="badge gold" *ngIf="UserDetails?.Rating > 280">
+      <div class="circle gold">&#8546;</div>
+    </div>
+    <div class="badge gold" *ngIf="UserDetails?.Rating > 320">
+      <div class="circle gold">&#8547;</div>
+    </div>
+    <div class="badge gold" *ngIf="UserDetails?.Rating > 360">
+      <div class="circle gold">&#8548;</div>
+    </div>
+  </div>
+  <div class="badges" *ngIf="UserDetails?.Rating > 400">
+    <div class="badge blue" *ngIf="UserDetails?.Rating > 400">
+      <div class="circle blue">&#8544;</div>
+    </div>
+    <div class="badge blue" *ngIf="UserDetails?.Rating > 440">
+      <div class="circle blue">&#8545;</div>
+    </div>
+    <div class="badge blue" *ngIf="UserDetails?.Rating > 480">
+      <div class="circle blue">&#8546;</div>
+    </div>
+    <div class="badge blue" *ngIf="UserDetails?.Rating > 520">
+      <div class="circle blue">&#8547;</div>
+    </div>
+    <div class="badge blue" *ngIf="UserDetails?.Rating > 560">
+      <div class="circle blue">&#8548;</div>
+    </div>
+  </div>
+  <div class="badges" *ngIf="UserDetails?.Rating > 600">
+    <div class="badge green" *ngIf="UserDetails?.Rating > 600">
+      <div class="circle green">&#8544;</div>
+    </div>
+    <div class="badge green" *ngIf="UserDetails?.Rating > 650">
+      <div class="circle green">&#8545;</div>
+    </div>
+    <div class="badge green" *ngIf="UserDetails?.Rating > 700">
+      <div class="circle green">&#8546;</div>
+    </div>
+    <div class="badge green" *ngIf="UserDetails?.Rating > 750">
+      <div class="circle green">&#8547;</div>
+    </div>
+  </div>
+  <div class="badges" *ngIf="UserDetails?.Rating > 800">
+    <div class="badge pink" *ngIf="UserDetails?.Rating > 800">
+      <div class="circle pink">&#8544;</div>
+    </div>
+    <div class="badge pink" *ngIf="UserDetails?.Rating > 866">
+      <div class="circle pink">&#8545;</div>
+    </div>
+    <div class="badge pink" *ngIf="UserDetails?.Rating > 932">
+      <div class="circle pink">&#8546;</div>
+    </div>
+  </div>
+  <div class="badges" *ngIf="UserDetails?.Rating > 1000">
+    <div class="badge purple" *ngIf="UserDetails?.Rating > 1000">
+      <div class="circle purple">&#8544;</div>
+    </div>
+    <div class="badge purple" *ngIf="UserDetails?.Rating > 1100">
+      <div class="circle purple">&#8545;</div>
+    </div>
+  </div>
+  <div class="badges" *ngIf="UserDetails?.Rating > 1200">
+    <div class="badge red">
+      <div class="circle red">
+        <mat-icon>star</mat-icon>
+      </div>
+    </div>
+  </div>
+</div>
