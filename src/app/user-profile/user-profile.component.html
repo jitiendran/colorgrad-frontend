@@ -1,0 +1,43 @@
+<div class="profile">
+  <div class="profile-model">
+    <div class="profile-img">
+      <img src="../../assets/jiji.jpeg" alt="Profile" />
+      <div class="profile-btn"><i class="fas fa-pen"></i></div>
+      <div class="name">Jitiendran KS</div>
+      <div class="email">jitiendranjiji2000@gmail.com</div>
+      <button class="edit-btn">Edit Profile</button>
+      <div class="friends">
+        <i class="fas fa-user-friends"></i>
+        <button><span>12</span> followers</button> .
+        <button><span>24</span> following</button>
+      </div>
+      <div class="social">
+        <div class="row">
+          <i class="fab fa-linkedin"></i> <a href="#">jitiendran1234</a>
+        </div>
+        <div class="row">
+          <i class="fab fa-github"></i> <a href="#">jitiendran</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav">
+    <mat-tab-group [ngStyle]="{ width: '100%' }">
+      <mat-tab label="Overview">
+        <app-overview></app-overview>
+      </mat-tab>
+      <mat-tab label="Colors">
+        <app-user-colors></app-user-colors>
+      </mat-tab>
+      <mat-tab label="Gradients">
+        <app-user-gradients></app-user-gradients>
+      </mat-tab>
+      <mat-tab label="Followers">
+        <app-followers></app-followers>
+      </mat-tab>
+      <mat-tab label="Following">
+        <app-following></app-following>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>

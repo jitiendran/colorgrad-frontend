@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
-import jwt_decode from 'jwt-decode';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-nav',
@@ -13,7 +13,8 @@ export class NavComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private router: Router,
-    private apollo: Apollo
+    private apollo: Apollo,
+    private userService: UserService
   ) {}
   Token: any;
   User: any;
@@ -25,7 +26,7 @@ export class NavComponent implements OnInit {
     if (!this.Token) {
       this.tokenAvailable = false;
     } else {
-      this.User = jwt_decode(this.Token);
+      this.User = this.userService.getUser();
       this.tokenAvailable = true;
     }
   }
@@ -58,7 +59,9 @@ export class NavComponent implements OnInit {
     this.router.navigateByUrl('/contributions/gradients');
   }
 
-  onProfile() {}
+  onProfile() {
+    this.router.navigateByUrl(`/profile/${this.User._id}`);
+  }
 
   onLogout() {
     localStorage.removeItem('token');

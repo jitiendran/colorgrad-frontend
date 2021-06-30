@@ -24,12 +24,18 @@ import { ColorComponent } from './home/color/color.component';
 import { GradientComponent } from './home/gradient/gradient.component';
 import { RatingComponent } from './home/rating/rating.component';
 import { FooterComponent } from './footer/footer.component';
-import { GraphQLModule } from './graphql.module';
+import { GraphQLModule } from './graphql/graphql.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APOLLO_OPTIONS } from 'apollo-angular';
 import { HttpLink } from 'apollo-angular/http';
 import { InMemoryCache } from '@apollo/client/core';
-import { HttpInterceptorInterceptor } from './http-interceptor.interceptor';
+import { HttpInterceptorInterceptor } from './interceptor/http-interceptor.interceptor';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { OverviewComponent } from './user-profile/overview/overview.component';
+import { UserColorsComponent } from './user-profile/user-colors/user-colors.component';
+import { UserGradientsComponent } from './user-profile/user-gradients/user-gradients.component';
+import { FollowersComponent } from './user-profile/followers/followers.component';
+import { FollowingComponent } from './user-profile/following/following.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +55,12 @@ import { HttpInterceptorInterceptor } from './http-interceptor.interceptor';
     GradientComponent,
     RatingComponent,
     FooterComponent,
+    UserProfileComponent,
+    OverviewComponent,
+    UserColorsComponent,
+    UserGradientsComponent,
+    FollowersComponent,
+    FollowingComponent,
   ],
   imports: [
     NgbModule,

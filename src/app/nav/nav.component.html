@@ -78,7 +78,11 @@
             id="dropdownBasic1"
             ngbDropdownToggle
           >
-            <img class="profile-img" src="../../assets/jiji.jpeg" alt="" />
+            <img
+              class="profile-img"
+              src="{{ User?.Profile || '../../../../assets/user.jpeg' }}"
+              alt=""
+            />
             {{ User?.Username }}
           </button>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">

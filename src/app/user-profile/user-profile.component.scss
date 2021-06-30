@@ -1,0 +1,97 @@
+@import "../shared/utilities/scss/font.scss";
+@import "../shared/utilities/scss/variables.scss";
+@import "../shared/utilities/scss/model.scss";
+@import "../shared/utilities/scss/mixins.scss";
+@import "../shared/utilities/scss/material.scss";
+
+.profile {
+  margin-top: 3.7em;
+  height: 100%;
+  padding: 2em 3em;
+  background: $bg_color;
+  @include row-init;
+  .profile-model {
+    @include column-init;
+    width: 260px;
+    .profile-img {
+      img {
+        width: 260px;
+        height: 260px;
+        border-radius: 50%;
+        box-shadow: 0px 5px 15px 1px rgba(0, 0, 0, 0.2);
+      }
+    }
+    .profile-btn {
+      @include empty-btn;
+      position: absolute;
+      background: #fff;
+      padding: 0.5em;
+      border-radius: 50%;
+      margin-top: -5em;
+      box-shadow: 0px 5px 15px 1px rgba(0, 0, 0, 0.2);
+    }
+    .name {
+      margin-top: 0.75em;
+      color: $black;
+      font-family: "Montserrat", sans-serif;
+      font-size: 1.5em;
+      font-weight: 600;
+    }
+    .email {
+      color: #6c737b;
+    }
+    .edit-btn {
+      width: 100%;
+      text-align: center;
+      margin-top: 1em;
+      @include empty-btn;
+      padding: 0.3em;
+      border-radius: 0.2em;
+      border: 1.2px solid gainsboro;
+      background: lighten($color: gainsboro, $amount: 7%);
+
+      &:hover {
+        background: lighten($color: gainsboro, $amount: 4%);
+      }
+    }
+    .friends {
+      margin-top: 1.3em;
+      @include row;
+      gap: 0.5em;
+      i {
+        color: #6c737b;
+      }
+      button {
+        color: #6c737b;
+        @include empty-btn;
+        span {
+          color: $black;
+          font-weight: 500;
+        }
+        &:hover {
+          color: $primary_color;
+          span {
+            color: $primary_color;
+          }
+        }
+      }
+    }
+    .social {
+      margin-top: 0.7em;
+      padding: 0.7em;
+      font-size: 1.1em;
+      .row {
+        @include row;
+        gap: 0.75em;
+        a {
+          color: $black;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+  .nav {
+    width: 80%;
+    margin-left: 4em;
+  }
+}

@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { LoginModelComponent } from './nav/login-model/login-model.component';
 import { SignupModelComponent } from './nav/signup-model/signup-model.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -41,6 +42,11 @@ const routes: Routes = [
   {
     path: 'leaderboard',
     component: LeaderboardComponent,
+    canActivate: [AuthGuardGuard],
+  },
+  {
+    path: 'profile/:id',
+    component: UserProfileComponent,
     canActivate: [AuthGuardGuard],
   },
 ];
