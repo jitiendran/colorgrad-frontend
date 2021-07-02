@@ -1,1 +1,16 @@
-<p>following works!</p>
+<div class="following">
+  <div class="user" *ngFor="let following of Following">
+    <img
+      src="{{ following?.Profile || '../../../../../assets/user.jpeg' }}"
+      alt="Profile"
+      class="profile"
+    />
+    <div class="content">
+      <div class="Name">{{ following.Username }}</div>
+      <div class="Email">{{ following.Email }}</div>
+    </div>
+    <button class="btn btn-outline-primary" (click)="onUnfollow(following._id)">
+      unfollow
+    </button>
+  </div>
+</div>

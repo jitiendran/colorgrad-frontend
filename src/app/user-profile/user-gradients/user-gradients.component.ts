@@ -55,7 +55,6 @@ export class UserGradientsComponent implements OnInit {
         res += `${colors[i]}`;
       }
     }
-    console.log(res);
     return `linear-gradient(${direction},${res})`;
   }
 }

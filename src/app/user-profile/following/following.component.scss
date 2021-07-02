@@ -1,0 +1,37 @@
+@import "../../shared/utilities/scss/font.scss";
+@import "../../shared/utilities/scss/mixins.scss";
+@import "../../shared/utilities/scss/variables.scss";
+.following {
+  width: 100%;
+  padding: 1em;
+  display: flex;
+  flex-flow: column wrap;
+  .user {
+    margin-top: 1em;
+    width: 100%;
+    @include row;
+    // border: 1.5px solid #eaecef;
+    padding: 0.3em 0.75em;
+    border-radius: 0.3em;
+    gap: 1em;
+    box-shadow: 0px 0px 10px 0.5px rgba(0, 0, 0, 0.2);
+    .profile {
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+    }
+    .content {
+      width: 80%;
+      .Name {
+        font-family: "Montserrat", sans-serif;
+        color: $black;
+        font-size: 1.2em;
+        font-weight: 500;
+      }
+      .Email {
+        font-size: 0.94em;
+        color: #6c737b;
+      }
+    }
+  }
+}

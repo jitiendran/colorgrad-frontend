@@ -43,8 +43,8 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
 
     if (
       decodedToken &&
-      decodedToken['exp'] &&
-      decodedToken['exp'] - 120 <= new Date().getTime() / 1000
+      decodedToken['Expire'] &&
+      decodedToken['Expire'] <= Date.now()
     ) {
       if (this.refreshTokenInProgress) {
         return this.requestTokenSubject.pipe(
@@ -89,6 +89,7 @@ export class HttpInterceptorInterceptor implements HttpInterceptor {
                 );
                 this.requestTokenSubject.next(data.refresh_token.RefreshToken);
               }
+              this.refreshTokenInProgress = false;
               return next.handle(this.injectToken(request));
             })
           );

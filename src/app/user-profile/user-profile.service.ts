@@ -71,6 +71,34 @@ export class UserProfileService {
     }
   `;
 
+  private GET_FOLLOWERS_QUERY = gql`
+    query get_followers {
+      get_followers {
+        _id
+        Username
+        Email
+        Profile
+      }
+    }
+  `;
+
+  private GET_FOLLOWING_QUERY = gql`
+    query get_following {
+      get_following {
+        _id
+        Username
+        Email
+        Profile
+      }
+    }
+  `;
+
+  private REMOVE_FRIEND_QUERY = gql`
+    mutation remove_friend($data: remove_friendInput!) {
+      remove_friend(data: $data)
+    }
+  `;
+
   getUser(id: any) {
     return this.apollo.watchQuery<any>({
       query: this.GET_USER_QUERY,
@@ -99,6 +127,29 @@ export class UserProfileService {
       variables: {
         data: {
           UserId: id,
+        },
+      },
+    });
+  }
+
+  getFollowers() {
+    return this.apollo.watchQuery<any>({
+      query: this.GET_FOLLOWERS_QUERY,
+    });
+  }
+
+  getFollowing() {
+    return this.apollo.watchQuery<any>({
+      query: this.GET_FOLLOWING_QUERY,
+    });
+  }
+
+  unfollow(id: any) {
+    return this.apollo.mutate<any>({
+      mutation: this.REMOVE_FRIEND_QUERY,
+      variables: {
+        data: {
+          FriendId: id,
         },
       },
     });
