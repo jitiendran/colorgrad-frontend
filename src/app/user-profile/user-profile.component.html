@@ -5,7 +5,7 @@
         src="{{ User?.Profile || '../../../../assets/user.jpeg' }}"
         alt="Profile"
       />
-      <div class="profile-btn"><i class="fas fa-pen"></i></div>
+      <div class="profile-btn" *ngIf="itsMe"><i class="fas fa-pen"></i></div>
       <div class="row1">
         <div class="name">{{ User?.Username }}</div>
         <div
@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="email">{{ User?.Email }}</div>
-      <button class="edit-btn">Edit Profile</button>
+      <button class="edit-btn" *ngIf="itsMe">Edit Profile</button>
       <div class="friends">
         <i class="fas fa-user-friends"></i>
         <button>

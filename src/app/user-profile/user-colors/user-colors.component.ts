@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { ColorModel } from 'src/app/models/color.model';
 import { UserProfileService } from '../user-profile.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-colors',
@@ -20,8 +21,15 @@ export class UserColorsComponent implements OnInit {
   ) {}
 
   Colors: ColorModel[] = [];
+  Empty: boolean = false;
 
   ngOnInit(): void {
+    this.Router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.refetch();
+      });
+
     this.service
       .getColors(this.route.snapshot.params['id'])
       .valueChanges.subscribe(
@@ -29,6 +37,24 @@ export class UserColorsComponent implements OnInit {
           console.log(result);
 
           this.Colors = result.data.get_color;
+
+          this.Empty = this.Colors.length === 0 ? true : false;
+        },
+        (err) => {
+          console.error(err);
+        }
+      );
+  }
+
+  refetch() {
+    this.service
+      .getColors(this.route.snapshot.params['id'])
+      .valueChanges.subscribe(
+        (result: any) => {
+          console.log(result);
+
+          this.Colors = result.data.get_color;
+          this.Empty = this.Colors.length === 0 ? true : false;
         },
         (err) => {
           console.error(err);

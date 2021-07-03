@@ -1,3 +1,4 @@
+import jwt_decode from 'jwt-decode';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
@@ -9,6 +10,10 @@ import { GradientModel } from '../models/gradient.model';
 })
 export class UserProfileService {
   constructor(private apollo: Apollo) {}
+
+  private token = String(localStorage.getItem('token'));
+
+  private Following: any[] = [];
 
   private GET_USER_QUERY = gql`
     query get_user($data: get_userInput!) {
@@ -72,8 +77,8 @@ export class UserProfileService {
   `;
 
   private GET_FOLLOWERS_QUERY = gql`
-    query get_followers {
-      get_followers {
+    query get_followers($data: friendInput!) {
+      get_followers(data: $data) {
         _id
         Username
         Email
@@ -83,8 +88,8 @@ export class UserProfileService {
   `;
 
   private GET_FOLLOWING_QUERY = gql`
-    query get_following {
-      get_following {
+    query get_following($data: friendInput!) {
+      get_following(data: $data) {
         _id
         Username
         Email
@@ -96,6 +101,12 @@ export class UserProfileService {
   private REMOVE_FRIEND_QUERY = gql`
     mutation remove_friend($data: remove_friendInput!) {
       remove_friend(data: $data)
+    }
+  `;
+
+  private FOLLOW_FRIEND_QUERY = gql`
+    mutation add_friend($data: add_friendInput!) {
+      add_friend(data: $data)
     }
   `;
 
@@ -132,15 +143,25 @@ export class UserProfileService {
     });
   }
 
-  getFollowers() {
+  getFollowers(id: any) {
     return this.apollo.watchQuery<any>({
       query: this.GET_FOLLOWERS_QUERY,
+      variables: {
+        data: {
+          Id: id,
+        },
+      },
     });
   }
 
-  getFollowing() {
+  getFollowing(id: any) {
     return this.apollo.watchQuery<any>({
       query: this.GET_FOLLOWING_QUERY,
+      variables: {
+        data: {
+          Id: id,
+        },
+      },
     });
   }
 
@@ -153,5 +174,21 @@ export class UserProfileService {
         },
       },
     });
+  }
+
+  follow(id: any) {
+    return this.apollo.mutate<any>({
+      mutation: this.FOLLOW_FRIEND_QUERY,
+      variables: {
+        data: {
+          UserId: id,
+        },
+      },
+    });
+  }
+
+  getId() {
+    const user: any = jwt_decode(this.token);
+    return user._id;
   }
 }

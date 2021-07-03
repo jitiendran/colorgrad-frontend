@@ -1,3 +1,4 @@
+<not-available text="Friends" [condition]="Empty"></not-available>
 <div class="following">
   <div class="user" *ngFor="let following of Following">
     <img
@@ -6,11 +7,24 @@
       class="profile"
     />
     <div class="content">
-      <div class="Name">{{ following.Username }}</div>
+      <div class="Name" (click)="onUser(following._id)">
+        {{ following.Username }}
+      </div>
       <div class="Email">{{ following.Email }}</div>
     </div>
-    <button class="btn btn-outline-primary" (click)="onUnfollow(following._id)">
+    <button
+      class="btn btn-outline-primary"
+      *ngIf="!checkMe(following?._id) && checkUser(following?._id)"
+      (click)="onUnfollow(following?._id)"
+    >
       unfollow
+    </button>
+    <button
+      class="btn btn-primary"
+      *ngIf="!checkMe(following?._id) && !checkUser(following?._id)"
+      (click)="onFollow(following?._id)"
+    >
+      follow
     </button>
   </div>
 </div>

@@ -10,7 +10,5 @@ export class OverviewComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
-    console.log(this.UserDetails);
-  }
+  ngOnInit(): void {}
 }

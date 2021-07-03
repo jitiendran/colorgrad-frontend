@@ -36,6 +36,7 @@ import { UserColorsComponent } from './user-profile/user-colors/user-colors.comp
 import { UserGradientsComponent } from './user-profile/user-gradients/user-gradients.component';
 import { FollowersComponent } from './user-profile/followers/followers.component';
 import { FollowingComponent } from './user-profile/following/following.component';
+import { NotAvailableComponent } from './shared/utilities/models/not-available/not-available.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { FollowingComponent } from './user-profile/following/following.component
     UserGradientsComponent,
     FollowersComponent,
     FollowingComponent,
+    NotAvailableComponent,
   ],
   imports: [
     NgbModule,

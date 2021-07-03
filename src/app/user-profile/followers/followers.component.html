@@ -1,3 +1,30 @@
-<div class="followers">
-  {{ Followers.length }}
+<not-available text="Followers" [condition]="Empty"></not-available>
+<div class="follower" *ngIf="!Empty">
+  <div class="user" *ngFor="let follower of Followers">
+    <img
+      src="{{ follower?.Profile || '../../../../../assets/user.jpeg' }}"
+      alt="Profile"
+      class="profile"
+    />
+    <div class="content">
+      <div class="Name" (click)="onUser(follower?._id)">
+        {{ follower?.Username }}
+      </div>
+      <div class="Email">{{ follower?.Email }}</div>
+    </div>
+    <button
+      class="btn btn-outline-primary"
+      *ngIf="!checkMe(follower?._id) && checkUser(follower?._id)"
+      (click)="onUnfollow(follower?._id)"
+    >
+      unfollow
+    </button>
+    <button
+      class="btn btn-primary"
+      *ngIf="!checkMe(follower?._id) && !checkUser(follower?._id)"
+      (click)="onFollow(follower?._id)"
+    >
+      follow
+    </button>
+  </div>
 </div>
