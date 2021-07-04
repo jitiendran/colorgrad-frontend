@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -17,6 +18,11 @@ export class LoginModelComponent implements OnInit {
     Username: new FormControl(null, Validators.required),
     Password: new FormControl(null, Validators.required),
   });
+
+  loading: boolean = false;
+  Error: String;
+  UsernameError: String;
+  PasswordError: String;
 
   ngOnInit(): void {}
 
@@ -42,18 +48,29 @@ export class LoginModelComponent implements OnInit {
       })
       .valueChanges.subscribe(
         (result) => {
-          console.log(result);
+          this.loading = true;
           this.apollo.client.clearStore();
+
           localStorage.setItem('token', result.data.user_login.Token);
           localStorage.setItem(
             'refreshToken',
             result.data.user_login.RefreshToken
           );
-          this.router.navigateByUrl('/');
-          window.location.replace('');
+          setTimeout(() => {
+            this.loading = result.loading;
+            this.router.navigateByUrl('/');
+          }, 4000);
         },
         (err) => {
-          console.error(err);
+          this.UsernameError = '';
+          this.PasswordError = '';
+          const inst1: String[] = String(err).split('\n');
+          const inst2: String[] = inst1[0].split(':');
+          this.Error = inst2[1].trim();
+
+          this.Error.match('Username')
+            ? (this.UsernameError = this.Error)
+            : (this.PasswordError = this.Error);
         }
       );
   }

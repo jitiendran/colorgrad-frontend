@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
+import jwtDecode from 'jwt-decode';
+import { filter } from 'rxjs/operators';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -19,14 +21,33 @@ export class NavComponent implements OnInit {
   Token: any;
   User: any;
   tokenAvailable = false;
+  loading: boolean = false;
 
   ngOnInit(): void {
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.User = null;
+        this.reloading();
+      });
+
     this.Token = localStorage.getItem('token');
 
     if (!this.Token) {
       this.tokenAvailable = false;
     } else {
       this.User = this.userService.getUser();
+      this.tokenAvailable = true;
+    }
+  }
+
+  reloading() {
+    this.Token = localStorage.getItem('token');
+
+    if (!this.Token) {
+      this.tokenAvailable = false;
+    } else {
+      this.User = jwtDecode(this.Token);
       this.tokenAvailable = true;
     }
   }
@@ -60,14 +81,22 @@ export class NavComponent implements OnInit {
   }
 
   onProfile() {
-    this.router.navigateByUrl(`/profile/${this.User._id}`);
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+      this.router.navigateByUrl(`/profile/${this.User._id}`);
+    }, 3000);
   }
 
   onLogout() {
+    this.loading = true;
     localStorage.removeItem('token');
     localStorage.removeItem('refreshToken');
     this.apollo.client.clearStore();
     this.tokenAvailable = false;
-    window.location.replace('');
+    setTimeout(() => {
+      this.loading = false;
+      this.router.navigateByUrl('/');
+    }, 3000);
   }
 }

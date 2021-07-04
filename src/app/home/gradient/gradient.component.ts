@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { GradientModel } from 'src/app/models/gradient.model';
-import { Apollo, gql } from 'apollo-angular';
+import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-gradient',
@@ -19,6 +20,7 @@ export class GradientComponent implements OnInit {
   ) {}
 
   Gradients: GradientModel[] = [];
+  queryRef: QueryRef<GradientModel>;
 
   private GET_GRADIENT_QUERY = gql`
     query getGradients {
@@ -33,19 +35,23 @@ export class GradientComponent implements OnInit {
   `;
 
   ngOnInit(): void {
-    this.apollo
-      .watchQuery<GradientModel>({
-        query: this.GET_GRADIENT_QUERY,
-      })
-      .valueChanges.subscribe((result: any) => {
-        console.log(result);
-        this.Gradients = result.data.getGradients;
-        this.Gradients = this.Gradients.slice().sort((a, b) => {
-          return Number(b.UsedBy) - Number(a.UsedBy);
-        });
-        this.Gradients = this.Gradients.slice(0, 4);
-        console.log(this.Gradients);
+    this.Router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.queryRef.refetch();
       });
+
+    this.queryRef = this.apollo.watchQuery<GradientModel>({
+      query: this.GET_GRADIENT_QUERY,
+    });
+
+    this.queryRef.valueChanges.subscribe((result: any) => {
+      this.Gradients = result.data.getGradients;
+      this.Gradients = this.Gradients.slice().sort((a, b) => {
+        return Number(b.UsedBy) - Number(a.UsedBy);
+      });
+      this.Gradients = this.Gradients.slice(0, 4);
+    });
   }
 
   onCopy(color: string) {
@@ -69,7 +75,6 @@ export class GradientComponent implements OnInit {
         res += `${colors[i]}`;
       }
     }
-    console.log(res);
     return `linear-gradient(${direction},${res})`;
   }
 }

@@ -1,3 +1,4 @@
+<loader [condition]="loading"></loader>
 <div class="login">
   <div class="wrapper">
     <div class="img"></div>
@@ -11,6 +12,7 @@
             >Username required</mat-error
           >
         </mat-form-field>
+        <div class="error" *ngIf="UsernameError">{{ UsernameError }}</div>
         <mat-form-field appearance="standard" class="form">
           <mat-label>Password</mat-label>
           <input type="password" matInput formControlName="Password" required />
@@ -18,6 +20,7 @@
             >Password required</mat-error
           >
         </mat-form-field>
+        <div class="error" *ngIf="PasswordError">{{ PasswordError }}</div>
         <button
           type="submit"
           class="btn btn-primary"

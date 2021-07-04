@@ -37,6 +37,7 @@ import { UserGradientsComponent } from './user-profile/user-gradients/user-gradi
 import { FollowersComponent } from './user-profile/followers/followers.component';
 import { FollowingComponent } from './user-profile/following/following.component';
 import { NotAvailableComponent } from './shared/utilities/models/not-available/not-available.component';
+import { LoaderComponent } from './shared/utilities/models/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -63,6 +64,7 @@ import { NotAvailableComponent } from './shared/utilities/models/not-available/n
     FollowersComponent,
     FollowingComponent,
     NotAvailableComponent,
+    LoaderComponent,
   ],
   imports: [
     NgbModule,

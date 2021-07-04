@@ -2,8 +2,9 @@ import { ColorModel } from './../../models/color.model';
 import { Component, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { Apollo, gql } from 'apollo-angular';
+import { NavigationEnd, Router } from '@angular/router';
+import { Apollo, gql, QueryRef } from 'apollo-angular';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-color',
@@ -12,6 +13,7 @@ import { Apollo, gql } from 'apollo-angular';
 })
 export class ColorComponent implements OnInit {
   popularColors: ColorModel[] = [];
+  queryRef: QueryRef<ColorModel>;
 
   constructor(
     private Router: Router,
@@ -32,20 +34,26 @@ export class ColorComponent implements OnInit {
   `;
 
   ngOnInit(): void {
-    this.apollo
-      .watchQuery({
-        query: this.POPULAR_COLOR_QUERY,
-      })
-      .valueChanges.subscribe((result: any) => {
-        console.log(result);
-        this.popularColors = result.data.getPopularColors;
-
-        this.popularColors = this.popularColors.slice().sort((a, b) => {
-          return Number(b.UsedBy) - Number(a.UsedBy);
-        });
-
-        this.popularColors = this.popularColors.slice(0, 7);
+    this.Router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.queryRef.refetch();
       });
+
+    this.queryRef = this.apollo.watchQuery({
+      query: this.POPULAR_COLOR_QUERY,
+    });
+
+    this.queryRef.valueChanges.subscribe((result: any) => {
+      console.log(result);
+      this.popularColors = result.data.getPopularColors;
+
+      this.popularColors = this.popularColors.slice().sort((a, b) => {
+        return Number(b.UsedBy) - Number(a.UsedBy);
+      });
+
+      this.popularColors = this.popularColors.slice(0, 7);
+    });
   }
 
   onCopy(color: String) {
