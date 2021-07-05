@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { QueryRef } from 'apollo-angular';
 import { filter } from 'rxjs/operators';
+import { FriendModel } from 'src/app/models/friend.model';
 import { UserProfileService } from '../user-profile.service';
 
 @Component({
@@ -11,12 +11,12 @@ import { UserProfileService } from '../user-profile.service';
   styleUrls: ['./followers.component.scss'],
 })
 export class FollowersComponent implements OnInit {
-  Followers: any[] = [];
-  Following: any[] = [];
+  Followers: FriendModel[] = [];
+  Following: FriendModel[] = [];
   Empty: boolean = false;
   itsMe: boolean = false;
-  queryRef1: QueryRef<any>;
-  queryRef2: QueryRef<any>;
+  queryRef1: QueryRef<FriendModel>;
+  queryRef2: QueryRef<FriendModel>;
 
   constructor(
     private service: UserProfileService,
@@ -34,7 +34,7 @@ export class FollowersComponent implements OnInit {
     );
 
     this.queryRef1.valueChanges.subscribe(
-      (res) => {
+      (res: any) => {
         this.Followers = res.data.get_followers;
         this.Empty = this.Followers.length === 0 ? true : false;
       },
@@ -45,7 +45,7 @@ export class FollowersComponent implements OnInit {
 
     this.queryRef2 = this.service.getFollowing(this.service.getId());
 
-    this.queryRef2.valueChanges.subscribe((res) => {
+    this.queryRef2.valueChanges.subscribe((res: any) => {
       this.Following = res.data.get_following;
     });
   }
@@ -56,7 +56,7 @@ export class FollowersComponent implements OnInit {
     );
 
     this.queryRef1.valueChanges.subscribe(
-      (res) => {
+      (res: any) => {
         this.Followers = res.data.get_followers;
         this.Empty = this.Followers.length === 0 ? true : false;
       },
@@ -67,7 +67,7 @@ export class FollowersComponent implements OnInit {
 
     this.queryRef2 = this.service.getFollowing(this.service.getId());
 
-    this.queryRef2.valueChanges.subscribe((res) => {
+    this.queryRef2.valueChanges.subscribe((res: any) => {
       this.Following = res.data.get_following;
     });
   }
@@ -99,6 +99,7 @@ export class FollowersComponent implements OnInit {
       }
     );
   }
+
   onFollow(id: any) {
     this.service.follow(id).subscribe(
       (res) => {

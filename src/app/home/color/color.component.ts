@@ -14,6 +14,7 @@ import { filter } from 'rxjs/operators';
 export class ColorComponent implements OnInit {
   popularColors: ColorModel[] = [];
   queryRef: QueryRef<ColorModel>;
+  isLoggedIn: boolean = false;
 
   constructor(
     private Router: Router,
@@ -54,6 +55,10 @@ export class ColorComponent implements OnInit {
 
       this.popularColors = this.popularColors.slice(0, 7);
     });
+
+    if (localStorage.getItem('token')) {
+      this.isLoggedIn = true;
+    }
   }
 
   onCopy(color: String) {

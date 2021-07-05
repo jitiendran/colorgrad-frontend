@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { UserProfileService } from '../user-profile.service';
 import { QueryRef } from 'apollo-angular';
+import { FriendModel } from 'src/app/models/friend.model';
 
 @Component({
   selector: 'app-following',
@@ -16,17 +17,21 @@ export class FollowingComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
-  Following: any[] = [];
-  FollowingMe: any[] = [];
+  Following: FriendModel[] = [];
+  FollowingMe: FriendModel[] = [];
   itsMe: boolean = false;
   Empty: boolean = false;
-  queryRef1: QueryRef<any>;
-  queryRef2: QueryRef<any>;
+  queryRef1: QueryRef<FriendModel>;
+  queryRef2: QueryRef<FriendModel>;
 
   navigationSubscription: any;
   Id: String;
 
   ngOnInit(): void {
+    this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => this.reloading());
+
     if (this.route.snapshot.params['id'] === this.service.getId()) {
       this.itsMe = true;
     }
@@ -47,15 +52,9 @@ export class FollowingComponent implements OnInit, OnDestroy {
 
     this.queryRef2 = this.service.getFollowing(this.service.getId());
 
-    this.queryRef2.valueChanges.subscribe((res) => {
+    this.queryRef2.valueChanges.subscribe((res: any) => {
       this.FollowingMe = res.data.get_following;
     });
-
-    this.navigationSubscription = this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => {
-        this.reloading();
-      });
   }
 
   reloading() {
@@ -79,7 +78,7 @@ export class FollowingComponent implements OnInit, OnDestroy {
 
     this.queryRef2 = this.service.getFollowing(this.service.getId());
 
-    this.queryRef2.valueChanges.subscribe((res) => {
+    this.queryRef2.valueChanges.subscribe((res: any) => {
       this.FollowingMe = res.data.get_following;
     });
   }

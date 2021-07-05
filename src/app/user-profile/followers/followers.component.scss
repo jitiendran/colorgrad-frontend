@@ -28,6 +28,10 @@
         font-size: 1.2em;
         font-weight: 500;
         cursor: pointer;
+        display: inline-block;
+        &:hover {
+          text-decoration: underline;
+        }
       }
       .Email {
         font-size: 0.94em;

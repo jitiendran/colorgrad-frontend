@@ -20,11 +20,11 @@
       <div class="friends">
         <i class="fas fa-user-friends"></i>
         <button>
-          <span>{{ User?.Followers.length }}</span> followers
+          <span>{{ User?.Followers?.length }}</span> followers
         </button>
         .
         <button>
-          <span>{{ User?.Following.length }}</span> following
+          <span>{{ User?.Following?.length }}</span> following
         </button>
       </div>
       <div class="social" *ngIf="User?.LinkedinProfile">

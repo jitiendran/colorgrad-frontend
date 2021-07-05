@@ -1,2 +1,22 @@
-<div class="gradients"></div>
+<not-available text="Gradients" [condition]="Empty"></not-available>
+<div class="gradients">
+  <div class="content">
+    <div class="gradient" *ngFor="let gradient of Gradients">
+      <div class="btn-row">
+        <button class="circle">
+          <i class="far fa-heart"></i>
+        </button>
+      </div>
+      <div class="display">
+        <div
+          class="circle"
+          [ngStyle]="{ background: getBg(gradient.Direction, gradient.Colors) }"
+        ></div>
+      </div>
+      <button (click)="onCopy(getBg(gradient.Direction, gradient.Colors))">
+        copy
+      </button>
+    </div>
+  </div>
+</div>
 <app-footer></app-footer>

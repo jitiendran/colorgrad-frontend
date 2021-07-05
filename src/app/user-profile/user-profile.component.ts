@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { UserProfileService } from './user-profile.service';
+import { UserModel } from '../models/user.model';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,7 +12,7 @@ import { UserProfileService } from './user-profile.service';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   private navigationSunscription: any;
-  private queryRef: QueryRef<any>;
+  private queryRef: QueryRef<UserModel>;
   itsMe: boolean = false;
 
   constructor(
@@ -19,19 +20,17 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router
   ) {}
-  User: any;
+  User: UserModel;
 
   ngOnInit(): void {
     if (this.route.snapshot.params['id'] === this.service.getId()) {
       this.itsMe = true;
     }
-
     this.queryRef = this.service.getUser(this.route.snapshot.params['id']);
 
     this.queryRef.valueChanges.subscribe(
       (res: any) => {
         console.log(res);
-
         this.User = res.data.get_user;
       },
       (err: any) => {
@@ -71,7 +70,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }
   }
 
-  getBackground(rating: Number) {
+  getBackground(rating: any) {
+    rating = Number(rating);
     if (rating > 0)
       return 'linear-gradient(to bottom right, #e0e0e0 0%, #bdbdbd 100%)';
     else if (rating > 200)
@@ -90,7 +90,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     return 'black';
   }
 
-  getTitle(rating: Number) {
+  getTitle(rating: any) {
+    rating = Number(rating);
     if (rating > 0) return 'Silver';
     else if (rating > 200) return 'Gold';
     else if (rating > 400) return 'Ocean';

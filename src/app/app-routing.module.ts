@@ -15,8 +15,12 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'colors', component: ColorsComponent },
-  { path: 'gradients', component: GradientsComponent },
+  { path: 'colors', component: ColorsComponent, canActivate: [AuthGuardGuard] },
+  {
+    path: 'gradients',
+    component: GradientsComponent,
+    canActivate: [AuthGuardGuard],
+  },
   {
     path: 'favourite/colors',
     component: FavouritecolorComponent,

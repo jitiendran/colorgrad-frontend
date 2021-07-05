@@ -4,6 +4,8 @@ import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { ColorModel } from '../models/color.model';
 import { GradientModel } from '../models/gradient.model';
+import { UserModel } from '../models/user.model';
+import { FriendModel } from '../models/friend.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +14,6 @@ export class UserProfileService {
   constructor(private apollo: Apollo) {}
 
   private token = String(localStorage.getItem('token'));
-
-  private Following: any[] = [];
 
   private GET_USER_QUERY = gql`
     query get_user($data: get_userInput!) {
@@ -111,7 +111,7 @@ export class UserProfileService {
   `;
 
   getUser(id: any) {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.watchQuery<UserModel>({
       query: this.GET_USER_QUERY,
       variables: {
         data: {
@@ -144,7 +144,7 @@ export class UserProfileService {
   }
 
   getFollowers(id: any) {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.watchQuery<FriendModel>({
       query: this.GET_FOLLOWERS_QUERY,
       variables: {
         data: {
@@ -155,7 +155,7 @@ export class UserProfileService {
   }
 
   getFollowing(id: any) {
-    return this.apollo.watchQuery<any>({
+    return this.apollo.watchQuery<FriendModel>({
       query: this.GET_FOLLOWING_QUERY,
       variables: {
         data: {
@@ -166,7 +166,7 @@ export class UserProfileService {
   }
 
   unfollow(id: any) {
-    return this.apollo.mutate<any>({
+    return this.apollo.mutate<Boolean>({
       mutation: this.REMOVE_FRIEND_QUERY,
       variables: {
         data: {
@@ -177,7 +177,7 @@ export class UserProfileService {
   }
 
   follow(id: any) {
-    return this.apollo.mutate<any>({
+    return this.apollo.mutate<Boolean>({
       mutation: this.FOLLOW_FRIEND_QUERY,
       variables: {
         data: {

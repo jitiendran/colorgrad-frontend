@@ -23,11 +23,15 @@
     .content {
       width: 80%;
       .Name {
+        display: inline-block;
         font-family: "Montserrat", sans-serif;
         cursor: pointer;
         color: $black;
         font-size: 1.2em;
         font-weight: 500;
+        &:hover {
+          text-decoration: underline;
+        }
       }
       .Email {
         font-size: 0.94em;

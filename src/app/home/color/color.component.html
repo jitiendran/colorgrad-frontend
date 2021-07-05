@@ -13,7 +13,7 @@
       [ngStyle]="{ background: color.Colors }"
     >
       <div class="btn-row">
-        <button class="circle">
+        <button class="circle" *ngIf="isLoggedIn">
           <i class="far fa-heart"></i>
         </button>
         <mat-icon class="float-right" [ngStyle]="{ color: '#f6d365' }"

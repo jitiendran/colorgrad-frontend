@@ -83,7 +83,19 @@ import { LoaderComponent } from './shared/utilities/models/loader/loader.compone
       provide: APOLLO_OPTIONS,
       useFactory: (httplink: HttpLink) => {
         return {
-          cache: new InMemoryCache(),
+          cache: new InMemoryCache({
+            typePolicies: {
+              Query: {
+                fields: {
+                  get_following: {
+                    merge(existing, incoming) {
+                      return { ...incoming };
+                    },
+                  },
+                },
+              },
+            },
+          }),
           link: httplink.create({
             uri: 'http://localhost:4000/graphql',
           }),

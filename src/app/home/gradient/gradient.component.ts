@@ -21,6 +21,7 @@ export class GradientComponent implements OnInit {
 
   Gradients: GradientModel[] = [];
   queryRef: QueryRef<GradientModel>;
+  isLoggedIn: boolean = false;
 
   private GET_GRADIENT_QUERY = gql`
     query getGradients {
@@ -52,6 +53,10 @@ export class GradientComponent implements OnInit {
       });
       this.Gradients = this.Gradients.slice(0, 4);
     });
+
+    if (localStorage.getItem('token')) {
+      this.isLoggedIn = true;
+    }
   }
 
   onCopy(color: string) {
