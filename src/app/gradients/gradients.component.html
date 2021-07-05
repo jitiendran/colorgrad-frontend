@@ -3,8 +3,19 @@
   <div class="content">
     <div class="gradient" *ngFor="let gradient of Gradients">
       <div class="btn-row">
-        <button class="circle">
+        <button
+          class="circle"
+          *ngIf="checkFavourite(gradient.Colors) === false"
+          (click)="addFavourite(gradient)"
+        >
           <i class="far fa-heart"></i>
+        </button>
+        <button
+          class="circle"
+          *ngIf="checkFavourite(gradient.Colors)"
+          (click)="removeFavourite(gradient._id)"
+        >
+          <i [ngStyle]="{ color: '#ff304f' }" class="fas fa-heart"></i>
         </button>
       </div>
       <div class="display">
@@ -13,7 +24,15 @@
           [ngStyle]="{ background: getBg(gradient.Direction, gradient.Colors) }"
         ></div>
       </div>
-      <button (click)="onCopy(getBg(gradient.Direction, gradient.Colors))">
+      <button
+        (click)="
+          onCopy(
+            getBg(gradient.Direction, gradient.Colors),
+            gradient._id,
+            gradient.UserId
+          )
+        "
+      >
         copy
       </button>
     </div>

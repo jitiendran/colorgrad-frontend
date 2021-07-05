@@ -45,6 +45,9 @@
           i {
             color: $black;
           }
+          &:hover {
+            text-decoration: none;
+          }
         }
       }
       .display {

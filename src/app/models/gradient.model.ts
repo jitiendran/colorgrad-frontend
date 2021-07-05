@@ -4,4 +4,5 @@ export interface GradientModel {
   Type: String;
   Direction: String;
   UsedBy: Number;
+  UserId: String;
 }
