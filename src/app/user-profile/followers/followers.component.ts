@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { QueryRef } from 'apollo-angular';
-import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { FriendModel } from 'src/app/models/friend.model';
 import { UserProfileService } from '../user-profile.service';
 
@@ -10,13 +11,16 @@ import { UserProfileService } from '../user-profile.service';
   templateUrl: './followers.component.html',
   styleUrls: ['./followers.component.scss'],
 })
-export class FollowersComponent implements OnInit {
+export class FollowersComponent implements OnInit, OnDestroy {
   Followers: FriendModel[] = [];
-  Following: FriendModel[] = [];
   Empty: boolean = false;
   itsMe: boolean = false;
-  queryRef1: QueryRef<FriendModel>;
-  queryRef2: QueryRef<FriendModel>;
+
+  private Following: FriendModel[] = [];
+  private queryRef1: QueryRef<FriendModel>;
+  private queryRef2: QueryRef<FriendModel>;
+  private subscription1: Subscription;
+  private subscription2: Subscription;
 
   constructor(
     private service: UserProfileService,
@@ -24,74 +28,54 @@ export class FollowersComponent implements OnInit {
     private router: Router
   ) {}
 
+  load(): void {
+    this.queryRef1 = this.service.getFollowers(
+      this.route.snapshot.params['id']
+    );
+
+    this.subscription1 = this.queryRef1.valueChanges
+      .pipe(map((res: any) => res.data.get_followers))
+      .subscribe((data: FriendModel[]) => {
+        this.Followers = data;
+        this.Empty = this.Followers.length === 0;
+      });
+
+    this.queryRef2 = this.service.getFollowing(this.service.getId());
+
+    this.subscription2 = this.queryRef2.valueChanges
+      .pipe(map((res: any) => res.data.get_following))
+      .subscribe((data: FriendModel[]) => {
+        this.Following = data;
+      });
+  }
+
   ngOnInit(): void {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => this.reloading());
-
-    this.queryRef1 = this.service.getFollowers(
-      this.route.snapshot.params['id']
-    );
-
-    this.queryRef1.valueChanges.subscribe(
-      (res: any) => {
-        this.Followers = res.data.get_followers;
-        this.Empty = this.Followers.length === 0 ? true : false;
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
-
-    this.queryRef2 = this.service.getFollowing(this.service.getId());
-
-    this.queryRef2.valueChanges.subscribe((res: any) => {
-      this.Following = res.data.get_following;
-    });
+      .subscribe(() => this.load());
+    this.load();
   }
 
-  reloading() {
-    this.queryRef1 = this.service.getFollowers(
-      this.route.snapshot.params['id']
-    );
-
-    this.queryRef1.valueChanges.subscribe(
-      (res: any) => {
-        this.Followers = res.data.get_followers;
-        this.Empty = this.Followers.length === 0 ? true : false;
-      },
-      (err) => {
-        console.error(err);
-      }
-    );
-
-    this.queryRef2 = this.service.getFollowing(this.service.getId());
-
-    this.queryRef2.valueChanges.subscribe((res: any) => {
-      this.Following = res.data.get_following;
-    });
-  }
-
-  refetch() {
+  refetch(): void {
     this.queryRef1.refetch();
     this.queryRef2.refetch();
   }
 
-  onUser(id: any) {
+  onUser(id: any): void {
     this.router.navigateByUrl(`/profile/${id}`);
   }
 
-  checkMe(id: any) {
-    return this.service.getId() === id ? true : false;
+  checkMe(id: any): Boolean {
+    return this.service.getId() === id;
   }
 
-  checkUser(id: any) {
+  checkUser(id: any): Boolean {
     return this.Following.find((user) => user._id === id) ? true : false;
   }
 
-  onUnfollow(id: any) {
+  onUnfollow(id: any): void {
     this.service.unfollow(id).subscribe(
-      (res) => {
+      () => {
         this.refetch();
       },
       (err) => {
@@ -100,12 +84,17 @@ export class FollowersComponent implements OnInit {
     );
   }
 
-  onFollow(id: any) {
+  onFollow(id: any): void {
     this.service.follow(id).subscribe(
-      (res) => {
+      () => {
         this.refetch();
       },
       (err) => console.error(err)
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }

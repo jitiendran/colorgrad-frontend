@@ -1,11 +1,13 @@
 import jwt_decode from 'jwt-decode';
 import { Injectable } from '@angular/core';
-import { Apollo } from 'apollo-angular';
+import { Apollo, QueryRef } from 'apollo-angular';
 import gql from 'graphql-tag';
 import { ColorModel } from '../models/color.model';
 import { GradientModel } from '../models/gradient.model';
 import { UserModel } from '../models/user.model';
 import { FriendModel } from '../models/friend.model';
+import { Observable } from 'rxjs';
+import { DocumentNode } from 'graphql';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +17,7 @@ export class UserProfileService {
 
   private token = String(localStorage.getItem('token'));
 
-  private GET_USER_QUERY = gql`
+  private GET_USER_QUERY: DocumentNode = gql`
     query get_user($data: get_userInput!) {
       get_user(data: $data) {
         _id
@@ -53,7 +55,7 @@ export class UserProfileService {
     }
   `;
 
-  private GET_COLOR_QUERY = gql`
+  private GET_COLOR_QUERY: DocumentNode = gql`
     query get_color($data: get_userInput!) {
       get_color(data: $data) {
         _id
@@ -64,7 +66,7 @@ export class UserProfileService {
     }
   `;
 
-  private GET_GRADIENT_QUERY = gql`
+  private GET_GRADIENT_QUERY: DocumentNode = gql`
     query get_gradient($data: get_userInput!) {
       get_gradient(data: $data) {
         _id
@@ -76,7 +78,7 @@ export class UserProfileService {
     }
   `;
 
-  private GET_FOLLOWERS_QUERY = gql`
+  private GET_FOLLOWERS_QUERY: DocumentNode = gql`
     query get_followers($data: friendInput!) {
       get_followers(data: $data) {
         _id
@@ -87,7 +89,7 @@ export class UserProfileService {
     }
   `;
 
-  private GET_FOLLOWING_QUERY = gql`
+  private GET_FOLLOWING_QUERY: DocumentNode = gql`
     query get_following($data: friendInput!) {
       get_following(data: $data) {
         _id
@@ -98,19 +100,19 @@ export class UserProfileService {
     }
   `;
 
-  private REMOVE_FRIEND_QUERY = gql`
+  private REMOVE_FRIEND_QUERY: DocumentNode = gql`
     mutation remove_friend($data: remove_friendInput!) {
       remove_friend(data: $data)
     }
   `;
 
-  private FOLLOW_FRIEND_QUERY = gql`
+  private FOLLOW_FRIEND_QUERY: DocumentNode = gql`
     mutation add_friend($data: add_friendInput!) {
       add_friend(data: $data)
     }
   `;
 
-  getUser(id: any) {
+  getUser(id: any): QueryRef<UserModel> {
     return this.apollo.watchQuery<UserModel>({
       query: this.GET_USER_QUERY,
       variables: {
@@ -121,7 +123,7 @@ export class UserProfileService {
     });
   }
 
-  getColors(id: any) {
+  getColors(id: any): QueryRef<ColorModel> {
     return this.apollo.watchQuery<ColorModel>({
       query: this.GET_COLOR_QUERY,
       variables: {
@@ -132,7 +134,7 @@ export class UserProfileService {
     });
   }
 
-  getGradients(id: any) {
+  getGradients(id: any): QueryRef<GradientModel> {
     return this.apollo.watchQuery<GradientModel>({
       query: this.GET_GRADIENT_QUERY,
       variables: {
@@ -143,7 +145,7 @@ export class UserProfileService {
     });
   }
 
-  getFollowers(id: any) {
+  getFollowers(id: any): QueryRef<FriendModel> {
     return this.apollo.watchQuery<FriendModel>({
       query: this.GET_FOLLOWERS_QUERY,
       variables: {
@@ -154,7 +156,7 @@ export class UserProfileService {
     });
   }
 
-  getFollowing(id: any) {
+  getFollowing(id: any): QueryRef<FriendModel> {
     return this.apollo.watchQuery<FriendModel>({
       query: this.GET_FOLLOWING_QUERY,
       variables: {
@@ -165,7 +167,7 @@ export class UserProfileService {
     });
   }
 
-  unfollow(id: any) {
+  unfollow(id: any): Observable<any> {
     return this.apollo.mutate<Boolean>({
       mutation: this.REMOVE_FRIEND_QUERY,
       variables: {
@@ -176,7 +178,7 @@ export class UserProfileService {
     });
   }
 
-  follow(id: any) {
+  follow(id: any): Observable<any> {
     return this.apollo.mutate<Boolean>({
       mutation: this.FOLLOW_FRIEND_QUERY,
       variables: {
@@ -187,7 +189,7 @@ export class UserProfileService {
     });
   }
 
-  getId() {
+  getId(): String {
     const user: any = jwt_decode(this.token);
     return user._id;
   }

@@ -26,7 +26,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     private router: Router
   ) {}
 
-  load() {
+  load(): void {
     this.loaded = true;
     if (this.route.snapshot.params['id'] === this.service.getId()) {
       this.itsMe = true;
@@ -52,7 +52,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.load();
   }
 
-  getBackground(rating: any) {
+  getBackground(rating: any): String {
     rating = Number(rating);
     if (rating > 0)
       return 'linear-gradient(to bottom right, #e0e0e0 0%, #bdbdbd 100%)';
@@ -72,7 +72,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     return 'black';
   }
 
-  getTitle(rating: any) {
+  getTitle(rating: any): String {
     rating = Number(rating);
     if (rating > 0) return 'Silver';
     else if (rating > 200) return 'Gold';
