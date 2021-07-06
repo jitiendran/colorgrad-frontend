@@ -24,6 +24,7 @@ export class GradientsComponent implements OnInit, OnDestroy {
 
   Gradients: GradientModel[] = [];
   Empty: boolean = false;
+  loaded: boolean = false;
 
   private FavouriteGradients: GradientModel[] = [];
   private queryRef1: QueryRef<GradientModel>;
@@ -45,6 +46,7 @@ export class GradientsComponent implements OnInit, OnDestroy {
   `;
 
   load(): void {
+    this.loaded = true;
     this.queryRef1 = this.gradientServie.getFavouriteGradients();
 
     this.subscription1 = this.queryRef1.valueChanges
@@ -69,6 +71,7 @@ export class GradientsComponent implements OnInit, OnDestroy {
       )
       .subscribe((data: GradientModel[]) => {
         this.Gradients = data;
+        setTimeout(() => (this.loaded = false), 1000);
       });
   }
 

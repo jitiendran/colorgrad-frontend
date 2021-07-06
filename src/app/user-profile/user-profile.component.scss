@@ -11,6 +11,7 @@
   @include row-init;
   .profile-model {
     @include column-init;
+    position: fixed;
     width: 260px;
     .profile-img {
       img {
@@ -106,7 +107,7 @@
   }
   .nav {
     width: 80%;
-    margin-left: 4em;
+    margin-left: calc(260px + 4em);
   }
 }
 

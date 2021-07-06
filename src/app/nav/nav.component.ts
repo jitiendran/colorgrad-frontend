@@ -81,11 +81,7 @@ export class NavComponent implements OnInit {
   }
 
   onProfile() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-      this.router.navigateByUrl(`/profile/${this.User._id}`);
-    }, 3000);
+    this.router.navigateByUrl(`/profile/${this.User._id}`);
   }
 
   onLogout() {

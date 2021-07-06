@@ -1,2 +1,23 @@
-<div class="colors"></div>
+<loader [condition]="loaded"></loader>
+<not-available text="Colors" [condition]="Empty"></not-available>
+<div class="colors">
+  <div class="content">
+    <div
+      class="color"
+      *ngFor="let color of Colors; let i = index"
+      [ngStyle]="{ background: color.Colors }"
+    >
+      <div class="btn-row">
+        <button class="circle">
+          <i [ngStyle]="{ color: '#ff304f' }" class="fas fa-heart"></i>
+        </button>
+      </div>
+      <div class="display">
+        <button (click)="onCopy(color.Colors, color._id, color.UserId)">
+          {{ color.Colors }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 <app-footer></app-footer>

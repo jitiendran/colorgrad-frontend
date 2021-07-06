@@ -1,9 +1,10 @@
 import { QueryRef } from 'apollo-angular';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { UserProfileService } from './user-profile.service';
 import { UserModel } from '../models/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,40 +12,22 @@ import { UserModel } from '../models/user.model';
   styleUrls: ['./user-profile.component.scss'],
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
-  private navigationSunscription: any;
+  private navigationSunscription: Subscription;
   private queryRef: QueryRef<UserModel>;
+  private subscription: Subscription;
+
   itsMe: boolean = false;
+  loaded: boolean = false;
+  User: UserModel;
 
   constructor(
     private service: UserProfileService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
-  User: UserModel;
 
-  ngOnInit(): void {
-    if (this.route.snapshot.params['id'] === this.service.getId()) {
-      this.itsMe = true;
-    }
-    this.queryRef = this.service.getUser(this.route.snapshot.params['id']);
-
-    this.queryRef.valueChanges.subscribe(
-      (res: any) => {
-        console.log(res);
-        this.User = res.data.get_user;
-      },
-      (err: any) => {
-        console.error(err);
-      }
-    );
-    this.navigationSunscription = this.router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => {
-        this.refetch();
-      });
-  }
-
-  refetch() {
+  load() {
+    this.loaded = true;
     if (this.route.snapshot.params['id'] === this.service.getId()) {
       this.itsMe = true;
     } else {
@@ -52,22 +35,21 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }
     this.queryRef = this.service.getUser(this.route.snapshot.params['id']);
 
-    this.queryRef.valueChanges.subscribe(
-      (res: any) => {
-        console.log(res);
-
-        this.User = res.data.get_user;
-      },
-      (err: any) => {
-        console.error(err);
-      }
-    );
+    this.subscription = this.queryRef.valueChanges
+      .pipe(map((res: any) => res.data.get_user))
+      .subscribe((data: UserModel) => {
+        this.User = data;
+        setTimeout(() => (this.loaded = false), 1000);
+      });
   }
 
-  ngOnDestroy(): void {
-    if (this.navigationSunscription) {
-      this.navigationSunscription.unsubscribe();
-    }
+  ngOnInit(): void {
+    this.navigationSunscription = this.router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.load();
+      });
+    this.load();
   }
 
   getBackground(rating: any) {
@@ -101,5 +83,12 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     else if (rating > 1200) return 'Grand Master';
 
     return 'Unrated';
+  }
+
+  ngOnDestroy(): void {
+    if (this.navigationSunscription) {
+      this.navigationSunscription.unsubscribe();
+    }
+    this.subscription.unsubscribe();
   }
 }

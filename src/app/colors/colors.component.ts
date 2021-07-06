@@ -25,6 +25,7 @@ export class ColorsComponent implements OnInit, OnDestroy {
 
   Colors: ColorModel[] = [];
   Empty: boolean = false;
+  loaded: boolean = false;
 
   private FavouriteColors: ColorModel[] = [];
   private queryRef: QueryRef<ColorModel>;
@@ -45,6 +46,7 @@ export class ColorsComponent implements OnInit, OnDestroy {
   `;
 
   load(): void {
+    this.loaded = true;
     this.queryRef1 = this.colorService.getFavouriteColors();
 
     this.subscription1 = this.queryRef1.valueChanges
@@ -69,6 +71,9 @@ export class ColorsComponent implements OnInit, OnDestroy {
       )
       .subscribe((data: ColorModel[]) => {
         this.Colors = data;
+        setTimeout(() => {
+          this.loaded = false;
+        }, 1000);
         this.Empty = this.Colors.length === 0;
       });
   }
