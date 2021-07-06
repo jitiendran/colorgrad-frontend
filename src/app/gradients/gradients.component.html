@@ -1,7 +1,7 @@
 <not-available text="Gradients" [condition]="Empty"></not-available>
 <div class="gradients">
   <div class="content">
-    <div class="gradient" *ngFor="let gradient of Gradients">
+    <div class="gradient" *ngFor="let gradient of Gradients; let i = index">
       <div class="btn-row">
         <button
           class="circle"
@@ -17,6 +17,11 @@
         >
           <i [ngStyle]="{ color: '#ff304f' }" class="fas fa-heart"></i>
         </button>
+        <i
+          class="fas fa-star"
+          [ngStyle]="{ color: '#faee1c' }"
+          *ngIf="i < 10"
+        ></i>
       </div>
       <div class="display">
         <div

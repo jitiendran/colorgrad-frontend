@@ -52,24 +52,24 @@ export class ColorsService {
     });
   }
 
-  removeFavourite(id: String) {
+  removeFavourite(ColorId: String) {
     return this.apollo.mutate<Boolean>({
       mutation: this.REMOVE_COLOR_QUERY,
       variables: {
         data: {
-          ColorId: id,
+          ColorId,
         },
       },
     });
   }
 
-  copyColor(id: String, userId: String) {
+  copyColor(ColorId: String, UserId: String) {
     return this.apollo.mutate<Boolean>({
       mutation: this.COPY_COLOR_QUERY,
       variables: {
         data: {
-          ColorId: id,
-          UserId: userId,
+          ColorId,
+          UserId,
         },
       },
     });

@@ -1,19 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { filter } from 'rxjs/operators';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter, map } from 'rxjs/operators';
 import { ColorModel } from '../models/color.model';
 import gql from 'graphql-tag';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { ColorsService } from './colors.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-colors',
   templateUrl: './colors.component.html',
   styleUrls: ['./colors.component.scss'],
 })
-export class ColorsComponent implements OnInit {
+export class ColorsComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private clipborad: ClipboardService,
@@ -23,90 +24,64 @@ export class ColorsComponent implements OnInit {
   ) {}
 
   Colors: ColorModel[] = [];
-  FavouriteColors: ColorModel[] = [];
-  queryRef: QueryRef<ColorModel>;
-  queryRef1: QueryRef<ColorModel>;
   Empty: boolean = false;
-  fEmpty: boolean = false;
+
+  private FavouriteColors: ColorModel[] = [];
+  private queryRef: QueryRef<ColorModel>;
+  private queryRef1: QueryRef<ColorModel>;
+  private subscription: Subscription;
+  private subscription1: Subscription;
+
+  private GET_COLORS_QUERY = gql`
+    query getColors {
+      getColors {
+        _id
+        Colors
+        Type
+        UsedBy
+        UserId
+      }
+    }
+  `;
+
+  load(): void {
+    this.queryRef1 = this.colorService.getFavouriteColors();
+
+    this.subscription1 = this.queryRef1.valueChanges
+      .pipe(map((res: any) => res.data.getFavouriteColors))
+      .subscribe((data) => {
+        this.FavouriteColors = data;
+      });
+
+    this.queryRef = this.apollo.watchQuery<ColorModel>({
+      query: this.GET_COLORS_QUERY,
+    });
+
+    this.subscription = this.queryRef.valueChanges
+      .pipe(
+        map((res: any) => res.data.getColors),
+        map(
+          (data: ColorModel[]) =>
+            (data = data.slice().sort((a, b) => {
+              return Number(b.UsedBy) - Number(a.UsedBy);
+            }))
+        )
+      )
+      .subscribe((data) => {
+        this.Colors = data;
+        this.Empty = this.Colors.length === 0;
+      });
+  }
 
   ngOnInit(): void {
     this.router.events
       .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => this.reload());
+      .subscribe(() => this.load());
 
-    this.queryRef1 = this.colorService.getFavouriteColors();
-
-    this.queryRef1.valueChanges.subscribe((res: any) => {
-      console.log(res);
-      this.FavouriteColors = res.data.getFavouriteColors;
-      this.fEmpty =
-        this.FavouriteColors && this.FavouriteColors.length === 0
-          ? true
-          : false;
-    });
-
-    const req = gql`
-      query getColors {
-        getColors {
-          _id
-          Colors
-          Type
-          UsedBy
-          UserId
-        }
-      }
-    `;
-
-    this.queryRef = this.apollo.watchQuery<ColorModel>({
-      query: req,
-    });
-
-    this.queryRef.valueChanges.subscribe((res: any) => {
-      const arr: ColorModel[] = res.data.getColors;
-      this.Colors = arr.slice().sort((a, b) => {
-        return Number(b.UsedBy) - Number(a.UsedBy);
-      });
-      this.Empty = this.Colors.length === 0 ? true : false;
-    });
+    this.load();
   }
 
-  reload() {
-    this.queryRef1 = this.colorService.getFavouriteColors();
-
-    this.queryRef1.valueChanges.subscribe((res: any) => {
-      console.log(res);
-      this.FavouriteColors = res.data.getFavouriteColors;
-      this.fEmpty =
-        this.FavouriteColors && this.FavouriteColors.length === 0
-          ? true
-          : false;
-    });
-    const req = gql`
-      query getColors {
-        getColors {
-          _id
-          Colors
-          Type
-          UsedBy
-          UserId
-        }
-      }
-    `;
-
-    this.queryRef = this.apollo.watchQuery<ColorModel>({
-      query: req,
-    });
-
-    this.queryRef.valueChanges.subscribe((res: any) => {
-      const arr: ColorModel[] = res.data.getColors;
-      this.Colors = arr.slice().sort((a, b) => {
-        return Number(b.UsedBy) - Number(a.UsedBy);
-      });
-      this.Empty = this.Colors.length === 0 ? true : false;
-    });
-  }
-
-  onCopy(color: String, id: String, userId: String) {
+  onCopy(color: String, id: String, userId: String): void {
     this.clipborad.copyFromContent(String(color));
     this.snack.open('Copied to Clipboard !', '', {
       duration: 1000,
@@ -120,7 +95,7 @@ export class ColorsComponent implements OnInit {
     });
   }
 
-  addFavourite(color: ColorModel) {
+  addFavourite(color: ColorModel): void {
     this.colorService.addFavourite(color).subscribe((res: any) => {
       if (res.data.add_favouriteColor) {
         this.queryRef.refetch();
@@ -129,7 +104,7 @@ export class ColorsComponent implements OnInit {
     });
   }
 
-  removeFavourite(id: String) {
+  removeFavourite(id: String): void {
     this.colorService.removeFavourite(id).subscribe((res: any) => {
       if (res.data.remove_favouriteColor) {
         this.queryRef.refetch();
@@ -138,10 +113,15 @@ export class ColorsComponent implements OnInit {
     });
   }
 
-  checkFavourite(colors: String) {
+  checkFavourite(colors: String): Boolean {
     return this.FavouriteColors &&
       this.FavouriteColors.find((color) => color.Colors === colors)
       ? true
       : false;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
   }
 }

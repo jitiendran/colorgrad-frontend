@@ -3,7 +3,7 @@
   <div class="content">
     <div
       class="color"
-      *ngFor="let color of Colors"
+      *ngFor="let color of Colors; let i = index"
       [ngStyle]="{ background: color.Colors }"
     >
       <div class="btn-row">
@@ -21,6 +21,7 @@
         >
           <i [ngStyle]="{ color: '#ff304f' }" class="fas fa-heart"></i>
         </button>
+        <i class="fas fa-star" *ngIf="i < 10"></i>
       </div>
       <div class="display">
         <button (click)="onCopy(color.Colors, color._id, color.UserId)">

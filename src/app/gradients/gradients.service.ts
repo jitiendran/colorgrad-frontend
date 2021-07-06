@@ -39,15 +39,13 @@ export class GradientsService {
     }
   `;
 
-  copyGradient(id: String, userId: String) {
-    console.log('UserId', userId);
-
+  copyGradient(GradientId: String, UserId: String) {
     return this.apollo.mutate<Boolean>({
       mutation: this.COPY_GRADIENT_QUERY,
       variables: {
         data: {
-          GradientId: id,
-          UserId: userId,
+          GradientId,
+          UserId,
         },
       },
     });
@@ -68,12 +66,12 @@ export class GradientsService {
     });
   }
 
-  removeFavourite(id: String) {
+  removeFavourite(GradientId: String) {
     return this.apollo.mutate<Boolean>({
       mutation: this.REMOVE_GRADIENT_QUERY,
       variables: {
         data: {
-          GradientId: id,
+          GradientId,
         },
       },
     });

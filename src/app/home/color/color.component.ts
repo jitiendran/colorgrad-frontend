@@ -1,26 +1,34 @@
 import { ColorModel } from './../../models/color.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { ColorsService } from 'src/app/colors/colors.service';
 
 @Component({
   selector: 'app-color',
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.scss'],
 })
-export class ColorComponent implements OnInit {
+export class ColorComponent implements OnInit, OnDestroy {
   popularColors: ColorModel[] = [];
-  queryRef: QueryRef<ColorModel>;
   isLoggedIn: boolean = false;
+
+  private FavouriteColors: ColorModel[];
+  private queryRef: QueryRef<ColorModel>;
+  private queryRef1: QueryRef<ColorModel>;
+  private subscription: Subscription;
+  private subscription1: Subscription;
 
   constructor(
     private Router: Router,
     private apollo: Apollo,
     private clipborad: ClipboardService,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    private colorService: ColorsService
   ) {}
 
   private POPULAR_COLOR_QUERY = gql`
@@ -30,46 +38,94 @@ export class ColorComponent implements OnInit {
         Colors
         Type
         UsedBy
+        UserId
       }
     }
   `;
 
-  ngOnInit(): void {
-    this.Router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => {
-        this.queryRef.refetch();
-      });
+  load(): void {
+    this.queryRef1 = this.colorService.getFavouriteColors();
+
+    this.subscription1 = this.queryRef1.valueChanges
+      .pipe(map((res: any) => res.data.getFavouriteColors))
+      .subscribe((data) => (this.FavouriteColors = data));
 
     this.queryRef = this.apollo.watchQuery({
       query: this.POPULAR_COLOR_QUERY,
     });
 
-    this.queryRef.valueChanges.subscribe((result: any) => {
-      console.log(result);
-      this.popularColors = result.data.getPopularColors;
-
-      this.popularColors = this.popularColors.slice().sort((a, b) => {
-        return Number(b.UsedBy) - Number(a.UsedBy);
+    this.subscription = this.queryRef.valueChanges
+      .pipe(
+        map((res: any) => res.data.getPopularColors.slice().splice(0, 7)),
+        map((data: ColorModel[]) =>
+          data.slice().sort((a, b) => {
+            return Number(b.UsedBy) - Number(a.UsedBy);
+          })
+        )
+      )
+      .subscribe((data) => {
+        this.popularColors = data;
       });
-
-      this.popularColors = this.popularColors.slice(0, 7);
-    });
 
     if (localStorage.getItem('token')) {
       this.isLoggedIn = true;
     }
   }
 
-  onCopy(color: String) {
+  ngOnInit(): void {
+    this.Router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.load();
+      });
+    this.load();
+  }
+
+  onCopy(color: String, id: String, userId: String): void {
     this.clipborad.copyFromContent(String(color));
     this.snack.open('Copied to Clipboard !', '', {
       duration: 1000,
       panelClass: ['green-snackbar'],
     });
+
+    this.colorService.copyColor(id, userId).subscribe((res: any) => {
+      if (res.data.copyColors) {
+        this.queryRef.refetch();
+      }
+    });
   }
 
-  onGo() {
+  addFavourite(color: ColorModel): void {
+    this.colorService.addFavourite(color).subscribe((res: any) => {
+      if (res.data.add_favouriteColor) {
+        this.queryRef.refetch();
+        this.queryRef1.refetch();
+      }
+    });
+  }
+
+  removeFavourite(id: String): void {
+    this.colorService.removeFavourite(id).subscribe((res: any) => {
+      if (res.data.remove_favouriteColor) {
+        this.queryRef.refetch();
+        this.queryRef1.refetch();
+      }
+    });
+  }
+
+  checkFavourite(colors: String): Boolean {
+    return this.FavouriteColors &&
+      this.FavouriteColors.find((color) => color.Colors === colors)
+      ? true
+      : false;
+  }
+
+  onGo(): void {
     this.Router.navigateByUrl('/colors');
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    this.subscription1.unsubscribe();
   }
 }
