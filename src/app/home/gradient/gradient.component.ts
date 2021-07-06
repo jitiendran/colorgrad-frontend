@@ -4,7 +4,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { NavigationEnd, Router } from '@angular/router';
 import { GradientModel } from 'src/app/models/gradient.model';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { GradientsService } from 'src/app/gradients/gradients.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-gradient',
@@ -16,12 +18,18 @@ export class GradientComponent implements OnInit {
     private Router: Router,
     private apollo: Apollo,
     private clipborad: ClipboardService,
-    private snack: MatSnackBar
+    private snack: MatSnackBar,
+    private gradientServie: GradientsService
   ) {}
 
-  Gradients: GradientModel[] = [];
-  queryRef: QueryRef<GradientModel>;
+  Gradients: GradientModel[];
+  FavouriteGradients: GradientModel[];
+  queryRef1: QueryRef<GradientModel>;
+  queryRef2: QueryRef<GradientModel>;
+  subscription1: Subscription;
+  subscription2: Subscription;
   isLoggedIn: boolean = false;
+  Empty: boolean = false;
 
   private GET_GRADIENT_QUERY = gql`
     query getGradients {
@@ -35,43 +43,63 @@ export class GradientComponent implements OnInit {
     }
   `;
 
-  ngOnInit(): void {
-    this.Router.events
-      .pipe(filter((e) => e instanceof NavigationEnd))
-      .subscribe(() => {
-        this.queryRef.refetch();
+  load() {
+    this.queryRef1 = this.gradientServie.getFavouriteGradients();
+
+    this.subscription1 = this.queryRef1.valueChanges
+      .pipe(map((res: any) => res.data.getFavouriteGradients))
+      .subscribe((data: GradientModel[]) => {
+        this.FavouriteGradients = data;
+        this.Empty = this.FavouriteGradients.length === 0;
       });
 
-    this.queryRef = this.apollo.watchQuery<GradientModel>({
+    this.queryRef2 = this.apollo.watchQuery<GradientModel>({
       query: this.GET_GRADIENT_QUERY,
     });
 
-    this.queryRef.valueChanges.subscribe((result: any) => {
-      this.Gradients = result.data.getGradients;
-      this.Gradients = this.Gradients.slice().sort((a, b) => {
-        return Number(b.UsedBy) - Number(a.UsedBy);
+    this.subscription2 = this.queryRef2.valueChanges
+      .pipe(
+        map((res: any) => res.data.getGradients.slice().splice(0, 4)),
+        map((data: GradientModel[]) =>
+          data.slice().sort((a, b) => {
+            return Number(b.UsedBy) - Number(a.UsedBy);
+          })
+        )
+      )
+      .subscribe((data: GradientModel[]) => {
+        this.Gradients = data;
       });
-      this.Gradients = this.Gradients.slice(0, 4);
-    });
 
     if (localStorage.getItem('token')) {
       this.isLoggedIn = true;
     }
   }
 
-  onCopy(color: string) {
-    this.clipborad.copyFromContent(color);
+  ngOnInit(): void {
+    this.Router.events
+      .pipe(filter((e) => e instanceof NavigationEnd))
+      .subscribe(() => {
+        this.load();
+      });
+
+    this.load();
+  }
+
+  onCopy(color: String, id: String, userId: String): void {
+    this.clipborad.copyFromContent(String(color));
     this.snack.open('Copied to Clipboard !', '', {
       duration: 1000,
       panelClass: ['green-snackbar'],
     });
+    this.gradientServie.copyGradient(id, userId).subscribe((res: any) => {
+      if (res.data.copyGradient) {
+        this.queryRef1.refetch();
+        this.queryRef2.refetch();
+      }
+    });
   }
 
-  onGo() {
-    this.Router.navigateByUrl('/gradients');
-  }
-
-  getBg(direction: any, colors: any[]) {
+  getBg(direction: any, colors: any[]): String {
     let res = '';
     for (let i = 0; i < colors.length; i++) {
       if (i !== colors.length - 1) {
@@ -81,5 +109,41 @@ export class GradientComponent implements OnInit {
       }
     }
     return `linear-gradient(${direction},${res})`;
+  }
+
+  addFavourite(gradient: GradientModel): void {
+    this.gradientServie.addFavourite(gradient).subscribe((res: any) => {
+      if (res.data.add_favouriteGradient) {
+        this.queryRef1.refetch();
+        this.queryRef2.refetch();
+      }
+    });
+  }
+
+  removeFavourite(id: String): void {
+    this.gradientServie.removeFavourite(id).subscribe((res: any) => {
+      if (res.data.remove_favouriteGradient) {
+        this.queryRef1.refetch();
+        this.queryRef2.refetch();
+      }
+    });
+  }
+
+  checkFavourite(Colors: any): Boolean {
+    return this.FavouriteGradients &&
+      this.FavouriteGradients.find(
+        (gradient) => String(gradient.Colors) === String(Colors)
+      )
+      ? true
+      : false;
+  }
+
+  onGo() {
+    this.Router.navigateByUrl('/gradients');
+  }
+
+  ngOnDestroy(): void {
+    this.subscription1.unsubscribe();
+    this.subscription2.unsubscribe();
   }
 }

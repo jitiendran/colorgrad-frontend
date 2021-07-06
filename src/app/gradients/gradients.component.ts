@@ -49,7 +49,7 @@ export class GradientsComponent implements OnInit, OnDestroy {
 
     this.subscription1 = this.queryRef1.valueChanges
       .pipe(map((res: any) => res.data.getFavouriteGradients))
-      .subscribe((data) => {
+      .subscribe((data: GradientModel[]) => {
         this.FavouriteGradients = data;
         this.Empty = this.FavouriteGradients.length === 0;
       });
@@ -59,12 +59,16 @@ export class GradientsComponent implements OnInit, OnDestroy {
     });
 
     this.subscription2 = this.queryRef2.valueChanges
-      .pipe(map((res: any) => res.data.getGradients))
-      .subscribe((data) => {
-        const arr: GradientModel[] = data;
-        this.Gradients = arr.slice().sort((a, b) => {
-          return Number(b.UsedBy) - Number(a.UsedBy);
-        });
+      .pipe(
+        map((res: any) => res.data.getGradients),
+        map((data: GradientModel[]) =>
+          data.slice().sort((a, b) => {
+            return Number(b.UsedBy) - Number(a.UsedBy);
+          })
+        )
+      )
+      .subscribe((data: GradientModel[]) => {
+        this.Gradients = data;
       });
   }
 

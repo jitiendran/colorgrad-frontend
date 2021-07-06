@@ -49,7 +49,7 @@ export class ColorsComponent implements OnInit, OnDestroy {
 
     this.subscription1 = this.queryRef1.valueChanges
       .pipe(map((res: any) => res.data.getFavouriteColors))
-      .subscribe((data) => {
+      .subscribe((data: ColorModel[]) => {
         this.FavouriteColors = data;
       });
 
@@ -67,7 +67,7 @@ export class ColorsComponent implements OnInit, OnDestroy {
             }))
         )
       )
-      .subscribe((data) => {
+      .subscribe((data: ColorModel[]) => {
         this.Colors = data;
         this.Empty = this.Colors.length === 0;
       });

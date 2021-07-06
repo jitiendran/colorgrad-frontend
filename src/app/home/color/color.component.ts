@@ -48,7 +48,7 @@ export class ColorComponent implements OnInit, OnDestroy {
 
     this.subscription1 = this.queryRef1.valueChanges
       .pipe(map((res: any) => res.data.getFavouriteColors))
-      .subscribe((data) => (this.FavouriteColors = data));
+      .subscribe((data: ColorModel[]) => (this.FavouriteColors = data));
 
     this.queryRef = this.apollo.watchQuery({
       query: this.POPULAR_COLOR_QUERY,
