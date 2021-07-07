@@ -1,7 +1,6 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Apollo } from 'apollo-angular';
 import gql from 'graphql-tag';
@@ -10,6 +9,14 @@ import gql from 'graphql-tag';
   selector: 'app-login-model',
   templateUrl: './login-model.component.html',
   styleUrls: ['./login-model.component.scss'],
+  animations: [
+    trigger('Above', [
+      transition('void => *', [
+        style({ marginTop: '-7em' }),
+        animate('1.2s ease-in-out'),
+      ]),
+    ]),
+  ],
 })
 export class LoginModelComponent implements OnInit {
   constructor(private apollo: Apollo, private router: Router) {}

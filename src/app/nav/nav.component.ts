@@ -92,7 +92,7 @@ export class NavComponent implements OnInit {
     this.tokenAvailable = false;
     setTimeout(() => {
       this.loading = false;
-      this.router.navigateByUrl('/');
+      window.location.replace('');
     }, 3000);
   }
 }

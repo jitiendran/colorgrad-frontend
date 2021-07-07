@@ -7,11 +7,20 @@ import { filter, map } from 'rxjs/operators';
 import { GradientModel } from '../models/gradient.model';
 import { GradientsService } from '../gradients/gradients.service';
 import { Subscription } from 'rxjs';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-favouritegradient',
   templateUrl: './favouritegradient.component.html',
   styleUrls: ['./favouritegradient.component.scss'],
+  animations: [
+    trigger('FadeIn', [
+      transition('void => *', [
+        style({ marginTop: '-7em' }),
+        animate('1.6s ease-out'),
+      ]),
+    ]),
+  ],
 })
 export class FavouritegradientComponent implements OnInit, OnDestroy {
   constructor(

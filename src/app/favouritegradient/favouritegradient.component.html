@@ -2,7 +2,11 @@
 <loader [condition]="loaded"></loader>
 <div class="gradients">
   <div class="content">
-    <div class="gradient" *ngFor="let gradient of Gradients; let i = index">
+    <div
+      class="gradient"
+      @FadeIn
+      *ngFor="let gradient of Gradients; let i = index"
+    >
       <div class="btn-row">
         <button class="circle">
           <i [ngStyle]="{ color: '#ff304f' }" class="fas fa-heart"></i>

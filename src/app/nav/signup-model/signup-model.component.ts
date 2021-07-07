@@ -1,3 +1,4 @@
+import { trigger, transition, style, animate } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -5,6 +6,14 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   selector: 'app-signup-model',
   templateUrl: './signup-model.component.html',
   styleUrls: ['./signup-model.component.scss'],
+  animations: [
+    trigger('Above', [
+      transition('void => *', [
+        style({ marginTop: '-7em' }),
+        animate('1.2s ease-in-out'),
+      ]),
+    ]),
+  ],
 })
 export class SignupModelComponent implements OnInit {
   signupForm: FormGroup = new FormGroup({

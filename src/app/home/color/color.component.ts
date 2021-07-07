@@ -2,16 +2,25 @@ import { ColorModel } from './../../models/color.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { filter, map } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { ColorsService } from 'src/app/colors/colors.service';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-color',
   templateUrl: './color.component.html',
   styleUrls: ['./color.component.scss'],
+  animations: [
+    trigger('SlideLeft', [
+      transition('void => *', [
+        style({ marginLeft: '-5em' }),
+        animate('1.3s ease-out'),
+      ]),
+    ]),
+  ],
 })
 export class ColorComponent implements OnInit, OnDestroy {
   popularColors: ColorModel[] = [];
@@ -69,6 +78,8 @@ export class ColorComponent implements OnInit, OnDestroy {
 
     if (localStorage.getItem('token')) {
       this.isLoggedIn = true;
+    } else {
+      this.isLoggedIn = false;
     }
   }
 

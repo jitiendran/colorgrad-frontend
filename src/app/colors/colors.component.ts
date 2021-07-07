@@ -8,11 +8,26 @@ import gql from 'graphql-tag';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { ColorsService } from './colors.service';
 import { Subscription } from 'rxjs';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
 
 @Component({
   selector: 'app-colors',
   templateUrl: './colors.component.html',
   styleUrls: ['./colors.component.scss'],
+  animations: [
+    trigger('FadeIn', [
+      transition('void => *', [
+        style({ marginTop: '-7em' }),
+        animate('1.6s ease-out'),
+      ]),
+    ]),
+  ],
 })
 export class ColorsComponent implements OnInit, OnDestroy {
   constructor(

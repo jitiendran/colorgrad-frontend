@@ -3,6 +3,7 @@
 <div class="colors">
   <div class="content">
     <div
+      @FadeIn
       class="color"
       *ngFor="let color of Colors; let i = index"
       [ngStyle]="{ background: color.Colors }"

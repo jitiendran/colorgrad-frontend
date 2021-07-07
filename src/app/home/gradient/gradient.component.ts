@@ -7,11 +7,20 @@ import { Apollo, gql, QueryRef } from 'apollo-angular';
 import { filter, map } from 'rxjs/operators';
 import { GradientsService } from 'src/app/gradients/gradients.service';
 import { Subscription } from 'rxjs';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-gradient',
   templateUrl: './gradient.component.html',
   styleUrls: ['./gradient.component.scss'],
+  animations: [
+    trigger('SlideRight', [
+      transition('void => *', [
+        style({ marginRight: '-10em' }),
+        animate('1.3s ease-out'),
+      ]),
+    ]),
+  ],
 })
 export class GradientComponent implements OnInit {
   constructor(

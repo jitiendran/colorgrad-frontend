@@ -7,7 +7,11 @@
     </button>
   </div>
   <div class="content">
-    <div class="gradient" *ngFor="let gradient of Gradients; let i = index">
+    <div
+      class="gradient"
+      @SlideRight
+      *ngFor="let gradient of Gradients; let i = index"
+    >
       <div class="btn-row">
         <button
           class="circle"

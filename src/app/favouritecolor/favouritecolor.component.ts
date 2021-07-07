@@ -7,11 +7,20 @@ import { ColorModel } from '../models/color.model';
 import { Apollo, QueryRef } from 'apollo-angular';
 import { ColorsService } from '../colors/colors.service';
 import { Subscription } from 'rxjs';
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'favouritecolors',
   templateUrl: './favouritecolor.component.html',
   styleUrls: ['./favouritecolor.component.scss'],
+  animations: [
+    trigger('FadeIn', [
+      transition('void => *', [
+        style({ marginTop: '-7em' }),
+        animate('1.6s ease-out'),
+      ]),
+    ]),
+  ],
 })
 export class FavouritecolorComponent implements OnInit, OnDestroy {
   constructor(
