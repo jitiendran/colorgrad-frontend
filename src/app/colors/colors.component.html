@@ -1,11 +1,22 @@
 <not-available text="Colors" [condition]="Empty"></not-available>
 <loader [condition]="loaded"></loader>
+<mat-form-field class="select">
+  <mat-label>pick colors</mat-label>
+  <mat-select [(ngModel)]="Searched">
+    <mat-option *ngFor="let t of type" [value]="t === 'All' ? '' : t">
+      <div class="type-grp">
+        <div class="circle" [ngStyle]="{ background: t }"></div>
+        {{ t }}
+      </div>
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 <div class="colors">
   <div class="content">
     <div
       @FadeIn
       class="color"
-      *ngFor="let color of Colors; let i = index"
+      *ngFor="let color of Colors | filter: Searched; let i = index"
       [ngStyle]="{ background: color.Colors }"
     >
       <div class="btn-row">

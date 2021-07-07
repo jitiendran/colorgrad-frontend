@@ -8,6 +8,7 @@ import { BootstrapModule } from './shared/bootstrap/bootstrap.module';
 import { MaterialModule } from './shared/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClipboardModule } from 'ngx-clipboard';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
@@ -78,6 +79,8 @@ import { LoaderComponent } from './shared/utilities/models/loader/loader.compone
     ClipboardModule,
     GraphQLModule,
     HttpClientModule,
+    BrowserAnimationsModule,
+    Ng2SearchPipeModule,
   ],
   providers: [
     {

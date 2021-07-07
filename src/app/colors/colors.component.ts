@@ -23,7 +23,7 @@ import {
   animations: [
     trigger('FadeIn', [
       transition('void => *', [
-        style({ marginTop: '-7em' }),
+        style({ marginTop: '-15em' }),
         animate('1.6s ease-out'),
       ]),
     ]),
@@ -41,6 +41,9 @@ export class ColorsComponent implements OnInit, OnDestroy {
   Colors: ColorModel[] = [];
   Empty: boolean = false;
   loaded: boolean = false;
+  Searched: string = '';
+
+  type = ['All', 'red', 'blue', 'green', 'yellow', 'violet', 'pink', 'orange'];
 
   private FavouriteColors: ColorModel[] = [];
   private queryRef: QueryRef<ColorModel>;

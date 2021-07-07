@@ -34,6 +34,9 @@ export class GradientsComponent implements OnInit, OnDestroy {
   Gradients: GradientModel[] = [];
   Empty: boolean = false;
   loaded: boolean = false;
+  Searched: string = '';
+
+  type = ['All', 'red', 'blue', 'green', 'yellow', 'violet', 'pink', 'orange'];
 
   private FavouriteGradients: GradientModel[] = [];
   private queryRef1: QueryRef<GradientModel>;

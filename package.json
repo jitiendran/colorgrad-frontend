@@ -28,6 +28,7 @@
     "bootstrap": "^4.5.0",
     "graphql": "^15.5.1",
     "jwt-decode": "^3.1.2",
+    "ng2-search-filter": "^0.5.1",
     "ngx-clipboard": "^14.0.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

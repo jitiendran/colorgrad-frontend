@@ -1,11 +1,22 @@
 <not-available text="Gradients" [condition]="Empty"></not-available>
 <loader [condition]="loaded"></loader>
+<mat-form-field class="select">
+  <mat-label>pick colors</mat-label>
+  <mat-select [(ngModel)]="Searched">
+    <mat-option *ngFor="let t of type" [value]="t === 'All' ? '' : t">
+      <div class="type-grp">
+        <div class="circle" [ngStyle]="{ background: t }"></div>
+        {{ t }}
+      </div>
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 <div class="gradients">
   <div class="content">
     <div
       class="gradient"
       @FadeIn
-      *ngFor="let gradient of Gradients; let i = index"
+      *ngFor="let gradient of Gradients | filter: Searched; let i = index"
     >
       <div class="btn-row">
         <button
