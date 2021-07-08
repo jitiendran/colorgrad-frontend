@@ -3,11 +3,23 @@
   <div class="profile-model">
     <div class="profile-img">
       <img
-        src="{{ User?.Profile || '../../../../assets/user.jpeg' }}"
+        src="{{
+          User?.Profile
+            ? 'http://localhost:4000/files/' + User.Profile
+            : '../../../../assets/user.jpeg'
+        }}"
         alt="Profile"
       />
-      <div class="profile-btn" *ngIf="itsMe"><i class="fas fa-pen"></i></div>
-      <div class="row1">
+
+      <div
+        class="profile-btn"
+        *ngIf="itsMe && !pedit"
+        (click)="onEditProfile()"
+      >
+        <i class="fas fa-pen"></i>
+      </div>
+
+      <div class="row1" *ngIf="!pedit">
         <div class="name">{{ User?.Username }}</div>
         <div
           class="title"
@@ -16,9 +28,18 @@
           {{ getTitle(User?.Rating) }}
         </div>
       </div>
-      <div class="email">{{ User?.Email }}</div>
-      <button class="edit-btn" *ngIf="itsMe">Edit Profile</button>
-      <div class="friends">
+
+      <div class="email" *ngIf="!pedit">{{ User?.Email }}</div>
+
+      <button
+        class="edit-btn"
+        *ngIf="itsMe && !edit && !pedit"
+        (click)="onEdit()"
+      >
+        Edit Profile
+      </button>
+
+      <div class="friends" *ngIf="!edit && !pedit">
         <i class="fas fa-user-friends"></i>
         <button>
           <span>{{ User?.Followers?.length }}</span> followers
@@ -28,12 +49,101 @@
           <span>{{ User?.Following?.length }}</span> following
         </button>
       </div>
-      <div class="social" *ngIf="User?.LinkedinProfile">
+
+      <div class="btn-grp">
+        <button
+          class="btn btn-outline-primary"
+          *ngIf="!checkMe(User?._id) && checkUser(User?._id)"
+          (click)="onUnfollow(User?._id)"
+        >
+          unfollow
+        </button>
+        <button
+          class="btn btn-primary"
+          *ngIf="!checkMe(User?._id) && !checkUser(User?._id)"
+          (click)="onFollow(User?._id)"
+        >
+          follow
+        </button>
+      </div>
+
+      <form
+        class="form"
+        [formGroup]="updateform"
+        (ngSubmit)="onUpdate()"
+        *ngIf="edit"
+      >
+        <mat-form-field class="form">
+          <mat-label>LinkedinUrl</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="LinkedinProfile"
+            required
+          />
+          <mat-error *ngIf="updateform.get('LinkedinProfile')?.invalid"
+            >LinkedinProfile is required</mat-error
+          >
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>GithubUrl</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="GithubProfile"
+            required
+          />
+          <mat-error *ngIf="updateform.get('GithubProfile')?.invalid"
+            >GithubProfile is required</mat-error
+          >
+        </mat-form-field>
+        <div class="btn-row">
+          <button class="btn btn-primary" [disabled]="updateform.invalid">
+            Update
+          </button>
+          <button class="btn btn-danger" (click)="onClose()">close</button>
+        </div>
+      </form>
+
+      <form *ngIf="pedit" [formGroup]="fileform" (ngSubmit)="onUpload()">
+        <div class="file-div">
+          <label class="file-label" for="file">Upload Profile</label>
+          <div class="input-view">
+            <input
+              hidden
+              id="file"
+              type="file"
+              formControlName="file"
+              (change)="onFileChange($event)"
+            />
+          </div>
+        </div>
+        <div *ngIf="fileToUpload != null" class="error-file">
+          <span *ngIf="!typeValid">Not a Valid Image file</span>
+        </div>
+        <div class="file-name" *ngIf="fileToUpload && typeValid">
+          Uploaded : {{ fileToUpload.name }}
+        </div>
+        <div class="btn-row" [ngStyle]="{ marginTop: '1.5em' }">
+          <button class="btn btn-primary" [disabled]="!filePresent">
+            Update
+          </button>
+          <button class="btn btn-danger" (click)="onClose()">close</button>
+        </div>
+      </form>
+
+      <div class="social" *ngIf="User?.LinkedinProfile && !edit && !pedit">
         <div class="row">
-          <i class="fab fa-linkedin"></i> <a href="#">jitiendran1234</a>
+          <i class="fab fa-linkedin"></i>
+          <a href="{{ User?.LinkedinProfile }}">{{
+            filterProfile(User.LinkedinProfile)
+          }}</a>
         </div>
         <div class="row">
-          <i class="fab fa-github"></i> <a href="#">jitiendran</a>
+          <i class="fab fa-github"></i>
+          <a href="{{ User?.GithubProfile }}">{{
+            filterProfile(User.GithubProfile)
+          }}</a>
         </div>
       </div>
     </div>

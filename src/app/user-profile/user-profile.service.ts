@@ -112,6 +112,18 @@ export class UserProfileService {
     }
   `;
 
+  private UPDATE_USER_QUERY: DocumentNode = gql`
+    mutation update_user($data: update_UserInput!) {
+      update_user(data: $data)
+    }
+  `;
+
+  private UPLOAD_IMG_QUERY: DocumentNode = gql`
+    mutation upload_profile($file: Upload) {
+      upload_profile(file: $file)
+    }
+  `;
+
   getUser(id: any): QueryRef<UserModel> {
     return this.apollo.watchQuery<UserModel>({
       query: this.GET_USER_QUERY,
@@ -120,6 +132,7 @@ export class UserProfileService {
           UserId: id,
         },
       },
+      fetchPolicy: 'no-cache',
     });
   }
 
@@ -192,5 +205,29 @@ export class UserProfileService {
   getId(): String {
     const user: any = jwt_decode(this.token);
     return user._id;
+  }
+
+  updateUser(LinkedinProfile: String, GithubProfile: String): Observable<any> {
+    return this.apollo.mutate<Boolean>({
+      mutation: this.UPDATE_USER_QUERY,
+      variables: {
+        data: {
+          LinkedinProfile,
+          GithubProfile,
+        },
+      },
+    });
+  }
+
+  uploadImage(file: any): Observable<any> {
+    return this.apollo.mutate<Boolean>({
+      mutation: this.UPLOAD_IMG_QUERY,
+      variables: {
+        file,
+      },
+      context: {
+        useMultipart: true,
+      },
+    });
   }
 }

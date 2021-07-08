@@ -91,6 +91,16 @@
         }
       }
     }
+    .btn-grp {
+      margin-top: 0.75em;
+      button {
+        width: 100%;
+      }
+    }
+    .form {
+      display: flex;
+      flex-direction: column;
+    }
     .social {
       margin-top: 0.7em;
       padding: 0.7em;
@@ -113,4 +123,8 @@
 
 .tab {
   width: 100%;
+}
+.btn-row {
+  @include row;
+  gap: 1em;
 }

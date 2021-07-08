@@ -178,3 +178,51 @@ input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   box-shadow: 0 0 0 30px white inset !important;
 }
+
+.file-div {
+  display: flex;
+  align-items: center;
+
+  .file-label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0.65em 0.75em;
+    background-color: #f8f7ff;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: $primary_color;
+    box-shadow: inset 0 0 0 1px $primary_color;
+    border-radius: 3px;
+    transition: 0.2s ease-in-out;
+    width: 100%;
+    text-align: center;
+
+    &:hover {
+      background-color: #e7e5ff;
+    }
+
+    @media only screen and (max-width: 650px) {
+      width: max-content;
+    }
+  }
+  @media only screen and (max-width: 650px) {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+.file-name {
+  margin: 0.75em 0 0.25em 0;
+  font-size: 0.85em;
+}
+.error-file {
+  color: red;
+  margin-top: 1em;
+  font-size: 0.85em;
+  display: flex;
+  align-items: center;
+
+  span {
+    margin-right: 0.25em;
+  }
+}
