@@ -40,6 +40,7 @@ import { FollowersComponent } from './user-profile/followers/followers.component
 import { FollowingComponent } from './user-profile/following/following.component';
 import { NotAvailableComponent } from './shared/utilities/models/not-available/not-available.component';
 import { LoaderComponent } from './shared/utilities/models/loader/loader.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -81,6 +82,7 @@ import { LoaderComponent } from './shared/utilities/models/loader/loader.compone
     HttpClientModule,
     BrowserAnimationsModule,
     Ng2SearchPipeModule,
+    CommonModule,
   ],
   providers: [
     {

@@ -7,4 +7,36 @@
 .leaderboard {
   margin-top: 3.8em;
   background: $bg_color;
+  padding: 1em 2em;
+}
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 20%;
+}
+th {
+  font-size: 0.94em;
+}
+
+td,
+th {
+  font-weight: 500;
+  width: 25%;
+}
+
+.grad-text {
+  font-weight: 500;
+  background: $black;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hover {
+  cursor: pointer;
+  &:hover {
+    background: darken($color: #fff, $amount: 3%);
+  }
 }

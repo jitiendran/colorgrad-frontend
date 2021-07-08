@@ -1,2 +1,62 @@
-<div class="leaderboard"></div>
+<div class="leaderboard">
+  <mat-form-field appearance="standard">
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Ex. Mia"
+      #input
+    />
+  </mat-form-field>
+  <div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="S.No">
+        <th mat-header-cell *matHeaderCellDef>S.No</th>
+        <td mat-cell *matCellDef="let row; let i = index">{{ i + 1 }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Username">
+        <th mat-header-cell *matHeaderCellDef>Username</th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          class="grad-text"
+          [ngStyle]="{ backgroundImage: getColor(row.Rating) }"
+        >
+          {{ row.Username }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="Email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let row">{{ row.Email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="Rating">
+        <th mat-header-cell *matHeaderCellDef>Rating</th>
+        <td mat-cell *matCellDef="let row">
+          {{ row.Rating | number: "1.0-0" }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        class="hover"
+        (click)="onProfile(row._id)"
+      ></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">
+          No data matching the filter "{{ input.value }}"
+        </td>
+      </tr>
+    </table>
+    <mat-paginator
+      [length]="Users.length"
+      [pageSizeOptions]="[10, 25, 100]"
+    ></mat-paginator>
+  </div>
+</div>
 <app-footer></app-footer>

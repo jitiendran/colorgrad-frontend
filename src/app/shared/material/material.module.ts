@@ -12,6 +12,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
   declarations: [],
@@ -29,6 +31,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatTabsModule,
     MatTableModule,
     MatSelectModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -43,6 +47,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatTabsModule,
     MatTableModule,
     MatSelectModule,
+    MatPaginatorModule,
+    MatSortModule,
   ],
 })
 export class MaterialModule {}
