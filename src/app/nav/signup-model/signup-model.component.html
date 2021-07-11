@@ -1,3 +1,4 @@
+<loader [condition]="loading"></loader>
 <div class="signup">
   <div class="wrapper" @Above>
     <div class="img"></div>
@@ -6,11 +7,18 @@
       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
         <mat-form-field appearance="standard" class="form">
           <mat-label>Username</mat-label>
-          <input type="text" matInput formControlName="Username" required />
+          <input
+            type="text"
+            matInput
+            formControlName="Username"
+            (change)="onChange($event)"
+            required
+          />
           <mat-error *ngIf="signupForm.get('Username')?.invalid"
             >Username required</mat-error
           >
         </mat-form-field>
+        <div class="error" *ngIf="Error">Username already exist</div>
         <mat-form-field appearance="standard" class="form">
           <mat-label>Email</mat-label>
           <input type="email" matInput formControlName="Email" required />
@@ -29,8 +37,9 @@
           type="submit"
           class="btn btn-primary"
           [ngStyle]="{ width: '100%' }"
+          [disabled]="signupForm.invalid || Error"
         >
-          Login
+          Sign up
         </button>
         <div class="hr"></div>
         <div class="auth-msg">

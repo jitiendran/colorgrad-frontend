@@ -65,7 +65,6 @@ export class GradientsComponent implements OnInit, OnDestroy {
       .pipe(map((res: any) => res.data.getFavouriteGradients))
       .subscribe((data: GradientModel[]) => {
         this.FavouriteGradients = data;
-        this.Empty = this.FavouriteGradients.length === 0;
       });
 
     this.queryRef2 = this.apollo.watchQuery<GradientModel>({
@@ -83,6 +82,7 @@ export class GradientsComponent implements OnInit, OnDestroy {
       )
       .subscribe((data: GradientModel[]) => {
         this.Gradients = data;
+        this.Empty = this.Gradients.length === 0;
         setTimeout(() => (this.loaded = false), 1000);
       });
   }

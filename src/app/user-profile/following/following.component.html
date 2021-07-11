@@ -2,7 +2,11 @@
 <div class="following">
   <div class="user" *ngFor="let following of Following">
     <img
-      src="{{ following?.Profile || '../../../../../assets/user.jpeg' }}"
+      src="{{
+        following?.Profile
+          ? 'http://localhost:4000/files/' + following.Profile
+          : '../../../../../assets/user.jpeg'
+      }}"
       alt="Profile"
       class="profile"
     />

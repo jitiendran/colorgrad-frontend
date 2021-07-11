@@ -47,6 +47,7 @@
               class="btn btn-outline-primary"
               id="dropdownBasic1"
               ngbDropdownToggle
+              [disabled]="true"
             >
               Contributions
             </button>
@@ -81,7 +82,11 @@
           >
             <img
               class="profile-img"
-              src="{{ User?.Profile || '../../../../assets/user.jpeg' }}"
+              src="{{
+                User?.Profile
+                  ? 'http://localhost:4000/files/' + User.Profile
+                  : '../../../../assets/user.jpeg'
+              }}"
               alt=""
             />
             {{ User?.Username }}

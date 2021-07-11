@@ -2,7 +2,11 @@
 <div class="follower" *ngIf="!Empty">
   <div class="user" *ngFor="let follower of Followers">
     <img
-      src="{{ follower?.Profile || '../../../../../assets/user.jpeg' }}"
+      src="{{
+        follower?.Profile
+          ? 'http://localhost:4000/files/' + follower.Profile
+          : '../../../../../assets/user.jpeg'
+      }}"
       alt="Profile"
       class="profile"
     />

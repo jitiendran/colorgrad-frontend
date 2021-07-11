@@ -66,7 +66,7 @@ export class LoginModelComponent implements OnInit {
           setTimeout(() => {
             this.loading = result.loading;
             this.router.navigateByUrl('/');
-          }, 4000);
+          }, 2500);
         },
         (err) => {
           this.UsernameError = '';
