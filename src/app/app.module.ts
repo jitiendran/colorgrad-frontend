@@ -103,7 +103,7 @@ import { CommonModule } from '@angular/common';
             },
           }),
           link: httplink.create({
-            uri: 'http://localhost:4000/graphql',
+            uri: 'https://colorgrad-backend.herokuapp.com/graphql',
           }),
         };
       },

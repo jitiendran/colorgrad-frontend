@@ -84,7 +84,8 @@
               class="profile-img"
               src="{{
                 User?.Profile
-                  ? 'http://localhost:4000/files/' + User.Profile
+                  ? 'https://colorgrad-backend.herokuapp.com/files/' +
+                    User.Profile
                   : '../../../../assets/user.jpeg'
               }}"
               alt=""
