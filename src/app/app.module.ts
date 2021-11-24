@@ -41,6 +41,8 @@ import { FollowingComponent } from './user-profile/following/following.component
 import { NotAvailableComponent } from './shared/utilities/models/not-available/not-available.component';
 import { LoaderComponent } from './shared/utilities/models/loader/loader.component';
 import { CommonModule } from '@angular/common';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -83,6 +85,12 @@ import { CommonModule } from '@angular/common';
     BrowserAnimationsModule,
     Ng2SearchPipeModule,
     CommonModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     {
